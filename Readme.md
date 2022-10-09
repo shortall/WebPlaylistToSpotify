@@ -1,3 +1,5 @@
+![App Screenshot](AppScreenshot.png)
+
 # Configuration
 
 |Setting|Description|

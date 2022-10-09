@@ -2,9 +2,12 @@
 using SpotifyAPI.Web;
 using BbcPlaylistToSpotify;
 using BbcPlaylistToSpotify.Extensions;
+using System.Web;
 
 var appConfig = AppConfig.Get();
 var spotify = new SpotifyClient(appConfig.SpotifyApiToken);
+
+Console.WriteLine("Starting...");
 
 var playlist = await CreatePlaylist(appConfig, spotify);
 await AddTracks(appConfig, spotify, playlist);
@@ -18,10 +21,12 @@ static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, s
     var tracks = doc.DocumentNode
         .SelectNodes("//div[@class='text--prose']/p")
         .Where(x => x.LastChild.Name == "#text" || x.LastChild.Name == "strong")
-        .Select(x => x.InnerText);
+        .Select(x => HttpUtility.HtmlDecode(x.InnerText));
 
     foreach (var track in tracks)
     {
+        Console.WriteLine($"Adding track: {track}");
+
         var searchRequest = new SearchRequest(SearchRequest.Types.Track, track);
         var searchResponse = await spotify.Search.Item(searchRequest);
         var trackUris = new PlaylistAddItemsRequest(new List<string>() { searchResponse.Tracks.Items.First().Uri });
@@ -41,6 +46,8 @@ static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClien
     var newPlaylistName = NewPlaylistName();
     var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
     var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
+
+    Console.WriteLine($"Created spotify playlist: {newPlaylistName}");
     return playlist;
 }
 
@@ -48,11 +55,12 @@ static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlay
 {
     using (var httpClient = new HttpClient())
     {
-        Console.WriteLine("Starting...");
-
         foreach (var bbcPlaylistUrl in appConfig.BbcPlaylistUrls)
         {
-            await AddBbcPlaylist(spotify, playlist, bbcPlaylistUrl);
+            Console.WriteLine($"Downloading playlist: {bbcPlaylistUrl}");
+            var html = await httpClient.GetStringAsync(bbcPlaylistUrl);
+
+            await AddBbcPlaylist(spotify, playlist, html);
         }
 
         Console.WriteLine("Done");
