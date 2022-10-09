@@ -12,7 +12,8 @@ namespace BbcPlaylistToSpotify
         {
             var configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile($"appsettings.json");
+                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                 .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
 
             var config = configuration.Build();
             var appConfig = new AppConfig();
