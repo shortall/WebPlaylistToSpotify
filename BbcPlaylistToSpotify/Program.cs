@@ -37,7 +37,7 @@ static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, s
 static string NewPlaylistName()
 {
     var now = DateTime.UtcNow;
-    var newPlaylistName = $"NewPlaylist-{now.ToShortMonthName()}-{now.Year}";
+    var newPlaylistName = $"BbcPlaylist-{now.ToShortMonthName()}-{now.Year}";
     return newPlaylistName;
 }
 
