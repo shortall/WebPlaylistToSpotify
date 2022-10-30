@@ -18,7 +18,27 @@ namespace BbcPlaylistToSpotify
             var config = configuration.Build();
             var appConfig = new AppConfig();
             config.Bind(appConfig);
+            appConfig.Validate();
+
             return appConfig;
+        }
+
+        internal void Validate()
+        {
+            if (string.IsNullOrWhiteSpace(SpotifyUsername))
+            {
+                throw new InvalidOperationException("SpotifyUsername not configured");
+            }
+
+            if (string.IsNullOrWhiteSpace(SpotifyApiToken))
+            {
+                throw new InvalidOperationException("SpotifyApiToken not configured");
+            }
+
+            if (!BbcPlaylistUrls?.Any() == true)
+            {
+                throw new InvalidOperationException("BbcPlaylistUrls not configured");
+            }
         }
     }
 }
