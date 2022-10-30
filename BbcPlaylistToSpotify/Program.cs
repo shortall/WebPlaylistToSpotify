@@ -3,15 +3,25 @@ using SpotifyAPI.Web;
 using BbcPlaylistToSpotify;
 using BbcPlaylistToSpotify.Extensions;
 using System.Web;
+using System;
 
-var appConfig = AppConfig.Get();
-var spotify = new SpotifyClient(appConfig.SpotifyApiToken);
 
-Console.WriteLine("Starting...");
+try
+{
+    var appConfig = AppConfig.Get();
+    var spotify = new SpotifyClient(appConfig.SpotifyApiToken);
 
-var playlist = await CreatePlaylist(appConfig, spotify);
-await AddTracks(appConfig, spotify, playlist);
+    Console.WriteLine("Starting...");
 
+    var playlist = await CreatePlaylist(appConfig, spotify);
+    await AddTracks(appConfig, spotify, playlist);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex}");
+    Console.WriteLine($"Hit <Enter> to finish");
+    Console.ReadLine();
+}
 
 static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, string bbcPlaylistHtml)
 {

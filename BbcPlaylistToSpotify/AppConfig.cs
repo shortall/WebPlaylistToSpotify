@@ -1,9 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace BbcPlaylistToSpotify
 {
     internal class AppConfig
     {
+        private static string SettingsFileName = "appsettings.json";
+        private static string DevSettingsFileName = "appsettings.local.json";
+
         public string SpotifyUsername { get; set; }
         public string SpotifyApiToken { get; set; }
         public string[] BbcPlaylistUrls { get; set; }
@@ -12,8 +16,8 @@ namespace BbcPlaylistToSpotify
         {
             var configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                 .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
+                 .AddJsonFile(SettingsFileName, optional: false, reloadOnChange: true)
+                 .AddJsonFile(DevSettingsFileName, optional: true, reloadOnChange: true);
 
             var config = configuration.Build();
             var appConfig = new AppConfig();
@@ -25,19 +29,35 @@ namespace BbcPlaylistToSpotify
 
         internal void Validate()
         {
+            var errors = new List<string>();
+
             if (string.IsNullOrWhiteSpace(SpotifyUsername))
             {
-                throw new InvalidOperationException("SpotifyUsername not configured");
+                errors.Add("SpotifyUsername not configured");
             }
 
             if (string.IsNullOrWhiteSpace(SpotifyApiToken))
             {
-                throw new InvalidOperationException("SpotifyApiToken not configured");
+                errors.Add("SpotifyApiToken not configured");
             }
 
             if (!BbcPlaylistUrls?.Any() == true)
             {
-                throw new InvalidOperationException("BbcPlaylistUrls not configured");
+                errors.Add("BbcPlaylistUrls not configured");
+            }
+
+            if (errors.Any())
+            {
+                var sb = new StringBuilder();
+
+                sb.AppendLine($"Error in config, see {SettingsFileName}");
+                
+                foreach(var error in errors)
+                {
+                    sb.AppendLine(error);
+                }
+
+                throw new InvalidOperationException(sb.ToString());
             }
         }
     }
