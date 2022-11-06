@@ -12,19 +12,20 @@ namespace BbcPlaylistToSpotify
         public string SpotifyApiToken { get; set; }
         public string[] BbcPlaylistUrls { get; set; }
 
-        internal static AppConfig Get()
+        public AppConfig()
         {
             var configuration = new ConfigurationBuilder()
-                 .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile(SettingsFileName, optional: false, reloadOnChange: true)
-                 .AddJsonFile(DevSettingsFileName, optional: true, reloadOnChange: true);
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(SettingsFileName, optional: false, reloadOnChange: true)
+                .AddJsonFile(DevSettingsFileName, optional: true, reloadOnChange: true);
 
             var config = configuration.Build();
-            var appConfig = new AppConfig();
-            config.Bind(appConfig);
-            appConfig.Validate();
 
-            return appConfig;
+            SpotifyUsername = config.GetValue<string>("SpotifyUsername");
+            SpotifyApiToken = config.GetValue<string>("SpotifyApiToken");
+            BbcPlaylistUrls = config.GetValue<string[]>("BbcPlaylistUrls");
+
+            Validate();
         }
 
         internal void Validate()
@@ -51,8 +52,8 @@ namespace BbcPlaylistToSpotify
                 var sb = new StringBuilder();
 
                 sb.AppendLine($"Error in config, see {SettingsFileName}");
-                
-                foreach(var error in errors)
+
+                foreach (var error in errors)
                 {
                     sb.AppendLine(error);
                 }

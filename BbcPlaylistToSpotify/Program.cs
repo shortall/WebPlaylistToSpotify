@@ -4,16 +4,17 @@ using BbcPlaylistToSpotify;
 using BbcPlaylistToSpotify.Extensions;
 using System.Web;
 using System;
-
+using System.Diagnostics.Contracts;
 
 try
 {
-    var appConfig = AppConfig.Get();
-    var spotify = new SpotifyClient(appConfig.SpotifyApiToken);
+    var appConfig = new AppConfig();
+    var spotify = new SpotifyClient(appConfig.SpotifyApiToken ?? "");
 
     Console.WriteLine("Starting...");
 
     var playlist = await CreatePlaylist(appConfig, spotify);
+
     await AddTracks(appConfig, spotify, playlist);
 }
 catch (Exception ex)
@@ -23,8 +24,29 @@ catch (Exception ex)
     Console.ReadLine();
 }
 
+static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist playlist)
+{
+    using (var httpClient = new HttpClient())
+    {
+        foreach (var bbcPlaylistUrl in appConfig.BbcPlaylistUrls)
+        {
+            Console.WriteLine($"Downloading playlist: {bbcPlaylistUrl}");
+            var html = await httpClient.GetStringAsync(bbcPlaylistUrl);
+
+            await AddBbcPlaylist(spotify, playlist, html);
+        }
+
+        Console.WriteLine("Done");
+    }
+}
+
 static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, string bbcPlaylistHtml)
 {
+    if (playlist?.Id == null)
+    {
+        throw new ArgumentNullException("playlist.Id");
+    }
+
     var doc = new HtmlDocument();
     doc.LoadHtml(bbcPlaylistHtml);
 
@@ -39,8 +61,12 @@ static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, s
 
         var searchRequest = new SearchRequest(SearchRequest.Types.Track, track);
         var searchResponse = await spotify.Search.Item(searchRequest);
-        var trackUris = new PlaylistAddItemsRequest(new List<string>() { searchResponse.Tracks.Items.First().Uri });
-        var addResponse = await spotify.Playlists.AddItems(playlist.Id, trackUris);
+
+        if (searchResponse.Tracks.Items != null && searchResponse.Tracks.Items.Any())
+        {
+            var trackUris = new PlaylistAddItemsRequest(new List<string>() { searchResponse.Tracks.Items.First().Uri });
+            var addResponse = await spotify.Playlists.AddItems(playlist.Id, trackUris);
+        }
     }
 }
 
@@ -59,20 +85,4 @@ static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClien
 
     Console.WriteLine($"Created spotify playlist: {newPlaylistName}");
     return playlist;
-}
-
-static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist playlist)
-{
-    using (var httpClient = new HttpClient())
-    {
-        foreach (var bbcPlaylistUrl in appConfig.BbcPlaylistUrls)
-        {
-            Console.WriteLine($"Downloading playlist: {bbcPlaylistUrl}");
-            var html = await httpClient.GetStringAsync(bbcPlaylistUrl);
-
-            await AddBbcPlaylist(spotify, playlist, html);
-        }
-
-        Console.WriteLine("Done");
-    }
 }
