@@ -23,7 +23,7 @@ namespace BbcPlaylistToSpotify
 
             SpotifyUsername = config.GetValue<string>("SpotifyUsername");
             SpotifyApiToken = config.GetValue<string>("SpotifyApiToken");
-            BbcPlaylistUrls = config.GetValue<string[]>("BbcPlaylistUrls");
+            BbcPlaylistUrls = config.GetSection("BbcPlaylistUrls").Get<string[]>();
 
             Validate();
         }
