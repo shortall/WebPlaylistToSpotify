@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Text;
 
-namespace WebPlaylistToSpotify
+namespace WebPlaylistToSpotify.Model
 {
     internal class AppConfig
     {
@@ -10,7 +10,7 @@ namespace WebPlaylistToSpotify
 
         public string SpotifyUsername { get; set; }
         public string SpotifyApiToken { get; set; }
-        public string[] WebPlaylistUrls { get; set; }
+        public WebPlaylist[] WebPlaylists { get; set; }
 
         public AppConfig()
         {
@@ -23,30 +23,42 @@ namespace WebPlaylistToSpotify
 
             SpotifyUsername = config.GetValue<string>("SpotifyUsername");
             SpotifyApiToken = config.GetValue<string>("SpotifyApiToken");
-            WebPlaylistUrls = config.GetSection("WebPlaylistUrls").Get<string[]>();
+            WebPlaylists = config.GetSection("WebPlaylists").Get<WebPlaylist[]>();
 
             Validate();
         }
 
         internal void Validate()
         {
-            var errors = new List<string>();
+            IEnumerable<string> errors = new List<string>();
 
             if (string.IsNullOrWhiteSpace(SpotifyUsername))
             {
-                errors.Add("SpotifyUsername not configured");
+                errors.Append("SpotifyUsername not configured");
             }
 
             if (string.IsNullOrWhiteSpace(SpotifyApiToken))
             {
-                errors.Add("SpotifyApiToken not configured");
+                errors.Append("SpotifyApiToken not configured");
             }
 
-            if (!WebPlaylistUrls?.Any() == true)
+            if (WebPlaylists == null || !WebPlaylists.Any())
             {
-                errors.Add("WebPlaylistUrls not configured");
+                errors.Append("WebPlaylists are configured");
+            }
+            else
+            {
+                foreach (var webPlaylist in WebPlaylists)
+                {
+                    errors = webPlaylist.Validate(errors);
+                }
             }
 
+            HandleErrors(errors);
+        }
+
+        private static void HandleErrors(IEnumerable<string> errors)
+        {
             if (errors.Any())
             {
                 var sb = new StringBuilder();
