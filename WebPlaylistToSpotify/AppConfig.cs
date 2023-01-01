@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Text;
 
-namespace BbcPlaylistToSpotify
+namespace WebPlaylistToSpotify
 {
     internal class AppConfig
     {
@@ -10,7 +10,7 @@ namespace BbcPlaylistToSpotify
 
         public string SpotifyUsername { get; set; }
         public string SpotifyApiToken { get; set; }
-        public string[] BbcPlaylistUrls { get; set; }
+        public string[] WebPlaylistUrls { get; set; }
 
         public AppConfig()
         {
@@ -23,7 +23,7 @@ namespace BbcPlaylistToSpotify
 
             SpotifyUsername = config.GetValue<string>("SpotifyUsername");
             SpotifyApiToken = config.GetValue<string>("SpotifyApiToken");
-            BbcPlaylistUrls = config.GetSection("BbcPlaylistUrls").Get<string[]>();
+            WebPlaylistUrls = config.GetSection("WebPlaylistUrls").Get<string[]>();
 
             Validate();
         }
@@ -42,9 +42,9 @@ namespace BbcPlaylistToSpotify
                 errors.Add("SpotifyApiToken not configured");
             }
 
-            if (!BbcPlaylistUrls?.Any() == true)
+            if (!WebPlaylistUrls?.Any() == true)
             {
-                errors.Add("BbcPlaylistUrls not configured");
+                errors.Add("WebPlaylistUrls not configured");
             }
 
             if (errors.Any())

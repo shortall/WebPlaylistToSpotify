@@ -1,7 +1,7 @@
 ﻿using HtmlAgilityPack;
 using SpotifyAPI.Web;
-using BbcPlaylistToSpotify;
-using BbcPlaylistToSpotify.Extensions;
+using WebPlaylistToSpotify;
+using WebPlaylistToSpotify.Extensions;
 using System.Web;
 using System;
 using System.Diagnostics.Contracts;
@@ -28,19 +28,19 @@ static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlay
 {
     using (var httpClient = new HttpClient())
     {
-        foreach (var bbcPlaylistUrl in appConfig.BbcPlaylistUrls)
+        foreach (var WebPlaylistUrl in appConfig.WebPlaylistUrls)
         {
-            Console.WriteLine($"Downloading playlist: {bbcPlaylistUrl}");
-            var html = await httpClient.GetStringAsync(bbcPlaylistUrl);
+            Console.WriteLine($"Downloading playlist: {WebPlaylistUrl}");
+            var html = await httpClient.GetStringAsync(WebPlaylistUrl);
 
-            await AddBbcPlaylist(spotify, playlist, html);
+            await AddWebPlaylist(spotify, playlist, html);
         }
 
         Console.WriteLine("Done");
     }
 }
 
-static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, string bbcPlaylistHtml)
+static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist playlist, string WebPlaylistHtml)
 {
     if (playlist?.Id == null)
     {
@@ -48,7 +48,7 @@ static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, s
     }
 
     var doc = new HtmlDocument();
-    doc.LoadHtml(bbcPlaylistHtml);
+    doc.LoadHtml(WebPlaylistHtml);
 
     var tracks = doc.DocumentNode
         .SelectNodes("//div[@class='text--prose']/p")
@@ -73,7 +73,7 @@ static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, s
 static string NewPlaylistName()
 {
     var now = DateTime.UtcNow;
-    var newPlaylistName = $"BbcPlaylist-{now.ToShortMonthName()}-{now.Year}";
+    var newPlaylistName = $"WebPlaylist-{now.ToShortMonthName()}-{now.Year}";
     return newPlaylistName;
 }
 
