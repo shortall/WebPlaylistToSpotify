@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace BbcPlaylistToSpotify.Extensions
+namespace WebPlaylistToSpotify.Extensions
 {
     internal static class DateTimeExtensions
     {

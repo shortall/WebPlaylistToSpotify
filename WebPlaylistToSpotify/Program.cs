@@ -1,10 +1,8 @@
-﻿using HtmlAgilityPack;
+﻿using WebPlaylistToSpotify.Extensions;
+using HtmlAgilityPack;
 using SpotifyAPI.Web;
-using BbcPlaylistToSpotify;
-using BbcPlaylistToSpotify.Extensions;
 using System.Web;
-using System;
-
+using WebPlaylistToSpotify.Model;
 
 try
 {
@@ -13,8 +11,8 @@ try
 
     Console.WriteLine("Starting...");
 
-    var playlist = await CreatePlaylist(appConfig, spotify);
-    await AddTracks(appConfig, spotify, playlist);
+    var spotifyPlaylist = await CreatePlaylist(appConfig, spotify);
+    await AddTracks(appConfig, spotify, spotifyPlaylist);
 }
 catch (Exception ex)
 {
@@ -23,14 +21,13 @@ catch (Exception ex)
     Console.ReadLine();
 }
 
-static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, string bbcPlaylistHtml)
+static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist playlist, string WebPlaylistHtml, string trackNamesXPath)
 {
     var doc = new HtmlDocument();
-    doc.LoadHtml(bbcPlaylistHtml);
+    doc.LoadHtml(WebPlaylistHtml);
 
     var tracks = doc.DocumentNode
-        .SelectNodes("//div[@class='text--prose']/p")
-        .Where(x => x.LastChild.Name == "#text" || x.LastChild.Name == "strong")
+        .SelectNodes(trackNamesXPath)
         .Select(x => HttpUtility.HtmlDecode(x.InnerText));
 
     foreach (var track in tracks)
@@ -47,7 +44,7 @@ static async Task AddBbcPlaylist(SpotifyClient spotify, FullPlaylist playlist, s
 static string NewPlaylistName()
 {
     var now = DateTime.UtcNow;
-    var newPlaylistName = $"BbcPlaylist-{now.ToShortMonthName()}-{now.Year}";
+    var newPlaylistName = $"WebPlaylist-{now.ToShortMonthName()}-{now.Year}";
     return newPlaylistName;
 }
 
@@ -61,16 +58,16 @@ static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClien
     return playlist;
 }
 
-static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist playlist)
+static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist spotifyPlaylist)
 {
     using (var httpClient = new HttpClient())
     {
-        foreach (var bbcPlaylistUrl in appConfig.BbcPlaylistUrls)
+        foreach (var webPlaylist in appConfig.WebPlaylists)
         {
-            Console.WriteLine($"Downloading playlist: {bbcPlaylistUrl}");
-            var html = await httpClient.GetStringAsync(bbcPlaylistUrl);
+            Console.WriteLine($"Downloading playlist: {webPlaylist.Url}");
+            var html = await httpClient.GetStringAsync(webPlaylist.Url);
 
-            await AddBbcPlaylist(spotify, playlist, html);
+            await AddWebPlaylist(spotify, spotifyPlaylist, html, webPlaylist.TrackNamesXPath);
         }
 
         Console.WriteLine("Done");

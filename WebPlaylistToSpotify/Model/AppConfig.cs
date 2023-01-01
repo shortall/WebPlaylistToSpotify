@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Text;
 
-namespace BbcPlaylistToSpotify
+namespace WebPlaylistToSpotify.Model
 {
     internal class AppConfig
     {
@@ -10,7 +10,7 @@ namespace BbcPlaylistToSpotify
 
         public string SpotifyUsername { get; set; }
         public string SpotifyApiToken { get; set; }
-        public string[] BbcPlaylistUrls { get; set; }
+        public WebPlaylist[] WebPlaylists { get; set; }
 
         internal static AppConfig Get()
         {
@@ -29,30 +29,42 @@ namespace BbcPlaylistToSpotify
 
         internal void Validate()
         {
-            var errors = new List<string>();
+            IEnumerable<string> errors = new List<string>();
 
             if (string.IsNullOrWhiteSpace(SpotifyUsername))
             {
-                errors.Add("SpotifyUsername not configured");
+                errors.Append("SpotifyUsername not configured");
             }
 
             if (string.IsNullOrWhiteSpace(SpotifyApiToken))
             {
-                errors.Add("SpotifyApiToken not configured");
+                errors.Append("SpotifyApiToken not configured");
             }
 
-            if (!BbcPlaylistUrls?.Any() == true)
+            if (!WebPlaylists?.Any() == true)
             {
-                errors.Add("BbcPlaylistUrls not configured");
+                errors.Append("WebPlaylists are configured");
+            }
+            else
+            {
+                foreach (var webPlaylist in WebPlaylists)
+                {
+                    errors = webPlaylist.Validate(errors);
+                }
             }
 
+            HandleErrors(errors);
+        }
+
+        private static void HandleErrors(IEnumerable<string> errors)
+        {
             if (errors.Any())
             {
                 var sb = new StringBuilder();
 
                 sb.AppendLine($"Error in config, see {SettingsFileName}");
-                
-                foreach(var error in errors)
+
+                foreach (var error in errors)
                 {
                     sb.AppendLine(error);
                 }
