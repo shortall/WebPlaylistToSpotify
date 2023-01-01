@@ -1,10 +1,7 @@
 ﻿using HtmlAgilityPack;
 using SpotifyAPI.Web;
-using WebPlaylistToSpotify;
-using WebPlaylistToSpotify.Extensions;
 using System.Web;
-using System;
-using System.Diagnostics.Contracts;
+using WebPlaylistToSpotify.Extensions;
 using WebPlaylistToSpotify.Model;
 
 try
@@ -29,7 +26,7 @@ static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlay
 {
     using (var httpClient = new HttpClient())
     {
-        foreach (var webPlaylist in appConfig.WebPlaylists)
+        foreach (var webPlaylist in appConfig.WebPlaylistCollection.WebPlaylists)
         {
             Console.WriteLine($"Downloading playlist: {webPlaylist.Url}");
             var html = await httpClient.GetStringAsync(webPlaylist.Url);
@@ -52,8 +49,7 @@ static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist spotifyPlay
     doc.LoadHtml(webPlaylistHtml);
 
     var tracks = doc.DocumentNode
-        .SelectNodes("//div[@class='text--prose']/p")
-        .Where(x => x.LastChild.Name == "#text" || x.LastChild.Name == "strong")
+        .SelectNodes(trackNamesXPath)
         .Select(x => HttpUtility.HtmlDecode(x.InnerText));
 
     foreach (var track in tracks)
@@ -71,16 +67,16 @@ static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist spotifyPlay
     }
 }
 
-static string NewPlaylistName()
+static string NewPlaylistName(AppConfig appConfig)
 {
     var now = DateTime.UtcNow;
-    var newPlaylistName = $"WebPlaylist-{now.ToShortMonthName()}-{now.Year}";
+    var newPlaylistName = $"{appConfig.WebPlaylistCollection.Description}-{now.ToShortMonthName()}-{now.Year}";
     return newPlaylistName;
 }
 
 static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClient spotify)
 {
-    var newPlaylistName = NewPlaylistName();
+    var newPlaylistName = NewPlaylistName(appConfig);
     var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
     var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
 
