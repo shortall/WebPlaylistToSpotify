@@ -18,7 +18,6 @@ The configuration file is appsettings.json
 {
   "Url": "https://www.bbc.co.uk/programmes/articles/5JDPyPdDGs3yCLdtPhGgWM7/bbc-radio-6-music-playlist",
   "TrackNamesXPath": "(//div[@class='text--prose']/p)[position()>1]"
-
 }
 ```
 
