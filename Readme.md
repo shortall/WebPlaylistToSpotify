@@ -20,6 +20,10 @@ The configuration file is appsettings.json
   "TrackNamesXPath": "(//div[@class='text--prose']/p)[position()>1]"
 }
 ```
+|Property|Description|
+|-------|-----------|
+|Url|URL of a HTML or XML based playlist|
+|TrackNamesXPath|XPath expression to select nodes containing the track names. Inner text will be extracted from each node.|
 
 ## Step 2 - Run
 
