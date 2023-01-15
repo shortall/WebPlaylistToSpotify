@@ -1,10 +1,7 @@
 ﻿using HtmlAgilityPack;
 using SpotifyAPI.Web;
-using WebPlaylistToSpotify;
-using WebPlaylistToSpotify.Extensions;
 using System.Web;
-using System;
-using System.Diagnostics.Contracts;
+using WebPlaylistToSpotify.Extensions;
 using WebPlaylistToSpotify.Model;
 
 try
