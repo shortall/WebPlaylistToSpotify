@@ -30,21 +30,21 @@ namespace WebPlaylistToSpotify.Model
 
         internal void Validate()
         {
-            IEnumerable<string> errors = new List<string>();
+            IList<string> errors = new List<string>();
 
             if (string.IsNullOrWhiteSpace(SpotifyUsername))
             {
-                errors.Append("SpotifyUsername not configured");
+                errors.Add("SpotifyUsername not configured");
             }
 
             if (string.IsNullOrWhiteSpace(SpotifyApiToken))
             {
-                errors.Append("SpotifyApiToken not configured");
+                errors.Add("SpotifyApiToken not configured");
             }
 
             if (WebPlaylists == null || !WebPlaylists.Any())
             {
-                errors.Append("WebPlaylists are configured");
+                errors.Add("WebPlaylists are configured");
             }
             else
             {

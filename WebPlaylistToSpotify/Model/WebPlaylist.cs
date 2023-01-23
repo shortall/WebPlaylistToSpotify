@@ -7,16 +7,16 @@ namespace WebPlaylistToSpotify.Model
         public string? Url { get; set; }
         public string? TrackNamesXPath { get; set; }
 
-        internal IEnumerable<string> Validate(IEnumerable<string> errors)
+        internal IList<string> Validate(IList<string> errors)
         {
             if (string.IsNullOrWhiteSpace(Url))
             {
-                errors.Append("Web playlist Url not missing");
+                errors.Add("Web playlist Url not missing");
             }
 
             if (string.IsNullOrWhiteSpace(TrackNamesXPath))
             {
-                errors.Append("Web playlist TrackNamesXPath not missing");
+                errors.Add("Web playlist TrackNamesXPath not missing");
             }
             else
             {
@@ -26,7 +26,7 @@ namespace WebPlaylistToSpotify.Model
                 }
                 catch (XPathException ex)
                 {
-                    errors.Append($"XPath syntax error: {ex.Message}");
+                    errors.Add($"XPath syntax error: {ex.Message}");
                 }
             }
 
