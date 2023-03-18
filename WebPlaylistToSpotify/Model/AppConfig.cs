@@ -21,9 +21,9 @@ namespace WebPlaylistToSpotify.Model
 
             var config = configuration.Build();
 
-            SpotifyUsername = config.GetValue<string>("SpotifyUsername");
-            SpotifyApiToken = config.GetValue<string>("SpotifyApiToken");
-            WebPlaylists = config.GetSection("WebPlaylists").Get<WebPlaylist[]>();
+            SpotifyUsername = config.GetValue<string>("SpotifyUsername") ?? string.Empty;
+            SpotifyApiToken = config.GetValue<string>("SpotifyApiToken") ?? string.Empty;
+            WebPlaylists = config.GetSection("WebPlaylists").Get<WebPlaylist[]>() ?? new WebPlaylist[0];
 
             Validate();
         }
