@@ -49,8 +49,7 @@ static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist spotifyPlay
     doc.LoadHtml(webPlaylistHtml);
 
     var tracks = doc.DocumentNode
-        .SelectNodes("//div[@class='text--prose']/p")
-        .Where(x => x.LastChild.Name == "#text" || x.LastChild.Name == "strong")
+        .SelectNodes(trackNamesXPath)
         .Select(x => HttpUtility.HtmlDecode(x.InnerText));
 
     foreach (var track in tracks)
