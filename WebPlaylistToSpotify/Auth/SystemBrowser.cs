@@ -8,15 +8,16 @@ namespace WebPlaylistToSpotify.Auth
 {
     public class SystemBrowser
     {
-        private const string ClientId = "cecbc33419334a7e968eddbd26639cc0";
         private const string Sha256CodeChallengeMethod = "S256";
 
         public int Port { get; }
+        private readonly string _clientId;
         private string _verifier;
         private string _usedCallbackUri;
 
-        public SystemBrowser()
+        public SystemBrowser(string clientId)
         {
+            _clientId = clientId;
             Port = GetRandomUnusedPort();
         }
 
@@ -36,7 +37,7 @@ namespace WebPlaylistToSpotify.Auth
 
             var loginRequest = new LoginRequest(
               new Uri(callbackUrl),
-              ClientId,
+              _clientId,
               LoginRequest.ResponseType.Code
             )
             {
@@ -50,7 +51,7 @@ namespace WebPlaylistToSpotify.Auth
         public async Task<string> GetToken(string code)
         {
             var initialResponse = await new OAuthClient().RequestToken(
-                new PKCETokenRequest(ClientId, code, new Uri(_usedCallbackUri), _verifier)
+                new PKCETokenRequest(_clientId, code, new Uri(_usedCallbackUri), _verifier)
             );
 
             return initialResponse.AccessToken;

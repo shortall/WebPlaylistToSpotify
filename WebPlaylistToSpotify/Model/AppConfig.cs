@@ -9,7 +9,7 @@ namespace WebPlaylistToSpotify.Model
         private static string DevSettingsFileName = "appsettings.local.json";
 
         public string SpotifyUsername { get; set; }
-        public string SpotifyApiToken { get; set; }
+        public string SpotifyClientId { get; set; }
         public WebPlaylist[] WebPlaylists { get; set; }
 
         public AppConfig()
@@ -22,7 +22,7 @@ namespace WebPlaylistToSpotify.Model
             var config = configuration.Build();
 
             SpotifyUsername = config.GetValue<string>("SpotifyUsername") ?? string.Empty;
-            SpotifyApiToken = config.GetValue<string>("SpotifyApiToken") ?? string.Empty;
+            SpotifyClientId = config.GetValue<string>("SpotifyClientId") ?? string.Empty;
             WebPlaylists = config.GetSection("WebPlaylists").Get<WebPlaylist[]>() ?? new WebPlaylist[0];
 
             Validate();
@@ -37,9 +37,9 @@ namespace WebPlaylistToSpotify.Model
                 errors.Add("SpotifyUsername not configured");
             }
 
-            if (string.IsNullOrWhiteSpace(SpotifyApiToken))
+            if (string.IsNullOrWhiteSpace(SpotifyClientId))
             {
-                errors.Add("SpotifyApiToken not configured");
+                errors.Add("SpotifyClientId not configured");
             }
 
             if (WebPlaylists == null || !WebPlaylists.Any())

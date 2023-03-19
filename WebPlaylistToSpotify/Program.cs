@@ -1,7 +1,6 @@
 ﻿using HtmlAgilityPack;
 using SpotifyAPI.Web;
 using System.Web;
-using WebPlaylistToSpotify;
 using WebPlaylistToSpotify.Auth;
 using WebPlaylistToSpotify.Extensions;
 using WebPlaylistToSpotify.Model;
@@ -10,7 +9,7 @@ try
 {
     var appConfig = new AppConfig();
 
-    var browser = new SystemBrowser();
+    var browser = new SystemBrowser(appConfig.SpotifyClientId);
     var queryString = await browser.InvokeAsync();
     var parsedQuery = HttpUtility.ParseQueryString(queryString);
     var token = await browser.GetToken(parsedQuery["code"]);
