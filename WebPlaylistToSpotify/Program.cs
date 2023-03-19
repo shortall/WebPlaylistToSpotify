@@ -14,21 +14,22 @@ try
     var appConfig = new AppConfig();
 
 
-    //// Generates a secure random verifier of length 100 and its challenge
-    //var (verifier, challenge) = PKCEUtil.GenerateCodes();
+    // Generates a secure random verifier of length 100 and its challenge
+    var (verifier, challenge) = PKCEUtil.GenerateCodes();
 
-    //var loginRequest = new SpotifyAPI.Web.LoginRequest(
-    //  new Uri("http://localhost:5000/callback"),
-    //  "cecbc33419334a7e968eddbd26639cc0",
-    //  SpotifyAPI.Web.LoginRequest.ResponseType.Code
-    //)
-    //{
-    //    CodeChallengeMethod = "S256",
-    //    CodeChallenge = challenge,
-    //    Scope = new[] { Scopes.PlaylistModifyPublic }
-    //};
-    //var uri = loginRequest.ToUri();
+    var loginRequest = new SpotifyAPI.Web.LoginRequest(
+      new Uri("http://localhost:5000/callback"),
+      "cecbc33419334a7e968eddbd26639cc0",
+      SpotifyAPI.Web.LoginRequest.ResponseType.Code
+    )
+    {
+        CodeChallengeMethod = "S256",
+        CodeChallenge = challenge,
+        Scope = new[] { Scopes.PlaylistModifyPublic }
+    };
+    var uri = loginRequest.ToUri();
 
+    var browser = new SystemBrowser();
 
     //var ps = new ProcessStartInfo();
 
@@ -70,11 +71,13 @@ try
     //var spotify = new SpotifyClient(initialResponse.AccessToken);
 
 
-    var config = SpotifyClientConfig.CreateDefault();
-    var request = new ClientCredentialsRequest("cecbc33419334a7e968eddbd26639cc0", "595a60da144644a5bddaf5783b190534");
-    var response = await new OAuthClient(config).RequestToken(request);
-    var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
-
+    /////////////////////////////////////////////////////
+    ///Client Creds
+    //var config = SpotifyClientConfig.CreateDefault();
+    //var request = new ClientCredentialsRequest("cecbc33419334a7e968eddbd26639cc0", "595a60da144644a5bddaf5783b190534");
+    //var response = await new OAuthClient(config).RequestToken(request);
+    //var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+    /////////////////////////////////////////////////////
 
     Console.WriteLine("Starting...");
 
