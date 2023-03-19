@@ -2,6 +2,7 @@
 using SpotifyAPI.Web;
 using System.Web;
 using WebPlaylistToSpotify;
+using WebPlaylistToSpotify.Auth;
 using WebPlaylistToSpotify.Extensions;
 using WebPlaylistToSpotify.Model;
 
