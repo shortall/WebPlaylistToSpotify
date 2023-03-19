@@ -10,15 +10,14 @@ namespace WebPlaylistToSpotify.Auth
     {
         private const string Sha256CodeChallengeMethod = "S256";
 
-        public int Port { get; }
         private readonly string _clientId;
+
         private string _verifier;
         private string _usedCallbackUri;
 
         public SystemBrowser(string clientId)
         {
             _clientId = clientId;
-            Port = GetRandomUnusedPort();
         }
 
         private int GetRandomUnusedPort()
@@ -57,9 +56,11 @@ namespace WebPlaylistToSpotify.Auth
             return initialResponse.AccessToken;
         }
 
-        public async Task<string> InvokeAsync(CancellationToken cancellationToken = default)
+        public async Task<string> InvokeAsync()
         {
-            using (var listener = new LoopbackHttpListener(Port))
+            var port = GetRandomUnusedPort();
+
+            using (var listener = new LoopbackHttpListener(port))
             {
                 _usedCallbackUri = listener.Url;
                 var authUrl = AuthUrl(listener.Url);
