@@ -1,7 +1,7 @@
-﻿using IdentityModel.OidcClient.Browser;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using SpotifyAPI.Web;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -10,10 +10,12 @@ using System.Text;
 
 namespace WebPlaylistToSpotify
 {
-    public class SystemBrowser : IBrowser
+    public class SystemBrowser
     {
         public int Port { get; }
         private readonly string _path;
+        private string _verifier;
+        private string _usedCallbackUri;
 
         public SystemBrowser(int? port = null, string path = null)
         {
@@ -38,30 +40,42 @@ namespace WebPlaylistToSpotify
             return port;
         }
 
-        public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default(CancellationToken))
+        private string AuthUrl(string callbackUrl)
+        {
+            var (verifier, challenge) = PKCEUtil.GenerateCodes();
+            _verifier = verifier;
+
+            var loginRequest = new SpotifyAPI.Web.LoginRequest(
+              new Uri(callbackUrl),
+              "cecbc33419334a7e968eddbd26639cc0",
+              SpotifyAPI.Web.LoginRequest.ResponseType.Code
+            )
+            {
+                CodeChallengeMethod = "S256",
+                CodeChallenge = challenge,
+                Scope = new[] { Scopes.PlaylistModifyPublic }
+            };
+            return loginRequest.ToUri().ToString();
+        }
+
+        public async Task<string> GetToken(string code)
+        {
+            var initialResponse = await new OAuthClient().RequestToken(
+                new PKCETokenRequest("cecbc33419334a7e968eddbd26639cc0", code, new Uri(_usedCallbackUri), _verifier)
+            );
+
+            return initialResponse.AccessToken;
+        }
+
+        public async Task<string> InvokeAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var listener = new LoopbackHttpListener(Port, _path))
             {
-                OpenBrowser(options.StartUrl);
+                _usedCallbackUri = listener.Url;
+                var authUrl = AuthUrl(listener.Url);
+                OpenBrowser(authUrl);
 
-                try
-                {
-                    var result = await listener.WaitForCallbackAsync();
-                    if (String.IsNullOrWhiteSpace(result))
-                    {
-                        return new BrowserResult { ResultType = BrowserResultType.UnknownError, Error = "Empty response." };
-                    }
-
-                    return new BrowserResult { Response = result, ResultType = BrowserResultType.Success };
-                }
-                catch (TaskCanceledException ex)
-                {
-                    return new BrowserResult { ResultType = BrowserResultType.Timeout, Error = ex.Message };
-                }
-                catch (Exception ex)
-                {
-                    return new BrowserResult { ResultType = BrowserResultType.UnknownError, Error = ex.Message };
-                }
+                return await listener.WaitForCallbackAsync();
             }
         }
 
