@@ -30,7 +30,7 @@ namespace WebPlaylistToSpotify
             }
             catch (Exception ex) 
             {
-                var a = 1;
+                Console.WriteLine(ex.ToString());
             }
         }
 
