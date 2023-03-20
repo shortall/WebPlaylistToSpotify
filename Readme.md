@@ -8,8 +8,8 @@ The configuration file is appsettings.json
 
 |Setting|Description|
 |-------|-----------|
-|SpotifyApiToken|Create youself a token here https://developer.spotify.com/|
 |SpotifyUsername|Spotify username, regular or email|
+|SpotifyClientId|The Client ID of the app you created in your Spotify Developer Console|
 |WebPlaylists|A collection of web playlists containing details of source playlists|
 
 ### WebPlaylist
