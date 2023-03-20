@@ -5,6 +5,9 @@ using System.Text;
 
 namespace WebPlaylistToSpotify.Auth
 {
+    /// <summary>
+    /// Based on https://github.com/IdentityModel/IdentityModel.OidcClient
+    /// </summary>
     public class LoopbackHttpListener : IDisposable
     {
         const int DefaultTimeout = 60 * 5;
