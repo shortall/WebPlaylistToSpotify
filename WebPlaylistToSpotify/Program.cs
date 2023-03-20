@@ -1,18 +1,20 @@
 ﻿using HtmlAgilityPack;
 using SpotifyAPI.Web;
 using System.Web;
+using WebPlaylistToSpotify.Auth;
 using WebPlaylistToSpotify.Extensions;
 using WebPlaylistToSpotify.Model;
 
 try
 {
     var appConfig = new AppConfig();
-    var spotify = new SpotifyClient(appConfig.SpotifyApiToken ?? "");
+    
+    string token = await GetAuthToken(appConfig);
+    var spotify = new SpotifyClient(token);
 
     Console.WriteLine("Starting...");
 
     var playlist = await CreatePlaylist(appConfig, spotify);
-
     await AddTracks(appConfig, spotify, playlist);
 }
 catch (Exception ex)
@@ -82,4 +84,21 @@ static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClien
 
     Console.WriteLine($"Created spotify playlist: {newPlaylistName}");
     return playlist;
+}
+
+static async Task<string> GetAuthToken(AppConfig appConfig)
+{
+    var browser = new SpotifyOAuthBrowser(appConfig.SpotifyClientId);
+    var resultQueryString = await browser.StartFlow();
+    var parsedQuery = HttpUtility.ParseQueryString(resultQueryString);
+
+    var code = parsedQuery["code"];
+
+    if (code == null)
+    {
+        throw new InvalidOperationException("Missing authorisation code");
+    }
+
+    var token = await browser.GetToken(code);
+    return token;
 }
