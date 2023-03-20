@@ -7,7 +7,7 @@ namespace WebPlaylistToSpotify.Auth
 {
     public class LoopbackHttpListener : IDisposable
     {
-        const int DefaultTimeout = 60 * 5; // 5 mins (in seconds)
+        const int DefaultTimeout = 60 * 5;
 
         IWebHost _host;
         TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
@@ -36,17 +36,17 @@ namespace WebPlaylistToSpotify.Auth
             });
         }
 
-        void Configure(IApplicationBuilder app)
+        private void Configure(IApplicationBuilder app)
         {
             app.Run(async ctx =>
             {
                 if (ctx.Request.Method == "GET")
                 {
-                    await SetResultAsync(ctx.Request.QueryString.Value, ctx);
+                    await SetResultAsync(ctx.Request.QueryString.Value!, ctx);
                 }
                 else if (ctx.Request.Method == "POST")
                 {
-                    if (!ctx.Request.ContentType.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase))
+                    if (!ctx.Request.ContentType!.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase))
                     {
                         ctx.Response.StatusCode = 415;
                     }
