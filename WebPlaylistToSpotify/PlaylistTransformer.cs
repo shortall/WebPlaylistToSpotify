@@ -38,7 +38,7 @@ namespace WebPlaylistToSpotify
         {
             using (var httpClient = new HttpClient())
             {
-                foreach (var webPlaylist in appConfig.WebPlaylists)
+                foreach (var webPlaylist in appConfig.WebPlaylistCollection.Playlists)
                 {
                     Console.WriteLine($"Downloading playlist: {webPlaylist.Url}");
                     var html = await httpClient.GetStringAsync(webPlaylist.Url);
@@ -74,21 +74,21 @@ namespace WebPlaylistToSpotify
                 if (searchResponse.Tracks.Items != null && searchResponse.Tracks.Items.Any())
                 {
                     var trackUris = new PlaylistAddItemsRequest(new List<string>() { searchResponse.Tracks.Items.First().Uri });
-                    var addResponse = await spotify.Playlists.AddItems(spotifyPlaylist.Id, trackUris);
+                    await spotify.Playlists.AddItems(spotifyPlaylist.Id, trackUris);
                 }
             }
         }
 
-        private string NewPlaylistName()
+        private string NewPlaylistName(WebPlaylistCollection collection)
         {
             var now = DateTime.UtcNow;
-            var newPlaylistName = $"WebPlaylist-{now.ToShortMonthName()}-{now.Year}";
+            var newPlaylistName = $"{collection.Name}-{now.ToShortMonthName()}-{now.Year}";
             return newPlaylistName;
         }
 
         private async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClient spotify)
         {
-            var newPlaylistName = NewPlaylistName();
+            var newPlaylistName = NewPlaylistName(appConfig.WebPlaylistCollection);
             var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
             var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
 

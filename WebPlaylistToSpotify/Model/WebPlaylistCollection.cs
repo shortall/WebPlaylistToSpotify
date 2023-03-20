@@ -4,6 +4,6 @@
     {
         public string Name { get; set; } = String.Empty;
 
-        public WebPlaylist[]? Playlists { get; }
+        public List<WebPlaylist> Playlists { get; set; } = new List<WebPlaylist>();
     }
 }
