@@ -8,7 +8,7 @@ namespace WebPlaylistToSpotify.Auth
     /// <summary>
     /// Based on https://github.com/IdentityModel/IdentityModel.OidcClient
     /// </summary>
-    public class LoopbackHttpListener : IDisposable
+    public sealed class LoopbackHttpListener : IDisposable
     {
         private const int defaultTimeout = 60 * 5;
 
