@@ -54,7 +54,7 @@ namespace WebPlaylistToSpotify
         {
             if (spotifyPlaylist?.Id == null)
             {
-                throw new ArgumentNullException("playlist.Id");
+                throw new ArgumentNullException("spotifyPlaylist.Id");
             }
 
             var doc = new HtmlDocument();

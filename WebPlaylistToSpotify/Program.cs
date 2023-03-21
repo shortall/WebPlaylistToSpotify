@@ -13,15 +13,22 @@ try
                     .AddJsonFile(settingsFileName, optional: false, reloadOnChange: true)
                     .AddJsonFile(devSettingsFileName, optional: true, reloadOnChange: true);
 
-    var config = configBuilder.Build();
-    var services = new ServiceCollection();
+    var configRoot = configBuilder.Build();
+    var appConfigSection = configRoot.GetSection("AppConfig");
+    var serviceCollection = new ServiceCollection();
 
-    await services
-        .Configure<AppConfig>(config.GetSection("AppConfig"))
+    var transformer = serviceCollection
+        .Configure<AppConfig>(appConfigSection)
         .AddSingleton<PlaylistTransformer, PlaylistTransformer>()
-        ?.BuildServiceProvider()
-        ?.GetService<PlaylistTransformer>()
-        ?.Run();
+        .BuildServiceProvider()
+        .GetService<PlaylistTransformer>();
+
+    if (transformer == null)
+    {
+        throw new InvalidOperationException("Failed to configure service collection");
+    }
+
+    await transformer.Run();
 }
 catch (Exception ex)
 {
