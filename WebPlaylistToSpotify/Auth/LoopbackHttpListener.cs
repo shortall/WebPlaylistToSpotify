@@ -10,11 +10,11 @@ namespace WebPlaylistToSpotify.Auth
     /// </summary>
     public class LoopbackHttpListener : IDisposable
     {
-        const int DefaultTimeout = 60 * 5;
+        private const int defaultTimeout = 60 * 5;
 
-        IWebHost _host;
-        TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
-        string _url;
+        private readonly IWebHost _host;
+        private readonly TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
+        private readonly string _url;
 
         public string Url => _url;
 
@@ -91,7 +91,7 @@ namespace WebPlaylistToSpotify.Auth
             }
         }
 
-        public Task<string> WaitForCallbackAsync(int timeoutInSeconds = DefaultTimeout)
+        public Task<string> WaitForCallbackAsync(int timeoutInSeconds = defaultTimeout)
         {
             Task.Run(async () =>
             {
