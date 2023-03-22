@@ -98,7 +98,7 @@ namespace WebPlaylistToSpotify
 
         private async Task<string> GetAuthToken(AppConfig appConfig)
         {
-            var browser = new SpotifyOAuthBrowser(appConfig.SpotifyClientId);
+            var browser = new SpotifyPkceBrowser(appConfig.SpotifyClientId);
             return await browser.Authorise();
         }
     }

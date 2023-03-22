@@ -3,7 +3,7 @@ using System.Web;
 
 namespace WebPlaylistToSpotify.Auth
 {
-    public class SpotifyOAuthBrowser : OAuthBrowser
+    public class SpotifyPkceBrowser : OAuthBrowser
     {
         private const string Sha256CodeChallengeMethod = "S256";
 
@@ -11,7 +11,7 @@ namespace WebPlaylistToSpotify.Auth
         
         private string? _verifier;
 
-        public SpotifyOAuthBrowser(string clientId)
+        public SpotifyPkceBrowser(string clientId)
         {
             _clientId = clientId;
         }
@@ -45,8 +45,7 @@ namespace WebPlaylistToSpotify.Auth
                 throw new InvalidOperationException("Missing authorisation code");
             }
 
-            var token = await GetPkceToken(code);
-            return token;
+            return await GetPkceToken(code);
         }
 
         private async Task<string> GetPkceToken(string code)
