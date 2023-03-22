@@ -20,7 +20,7 @@ namespace WebPlaylistToSpotify
         {
             try
             {
-                string token = await GetAuthToken(_appConfig);
+                var token = await GetAuthToken(_appConfig);
                 var spotify = new SpotifyClient(token);
 
                 Console.WriteLine("Starting...");
@@ -99,18 +99,7 @@ namespace WebPlaylistToSpotify
         private async Task<string> GetAuthToken(AppConfig appConfig)
         {
             var browser = new SpotifyOAuthBrowser(appConfig.SpotifyClientId);
-            var resultQueryString = await browser.StartFlow();
-            var parsedQuery = HttpUtility.ParseQueryString(resultQueryString);
-
-            var code = parsedQuery["code"];
-
-            if (code == null)
-            {
-                throw new InvalidOperationException("Missing authorisation code");
-            }
-
-            var token = await browser.GetToken(code);
-            return token;
+            return await browser.Authorise();
         }
     }
 }

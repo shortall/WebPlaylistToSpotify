@@ -13,8 +13,9 @@ namespace WebPlaylistToSpotify.Auth
         protected string? usedCallbackUri;
 
         protected abstract string AuthUrl(string callbackUrl);
+        protected abstract Task<string> PostProcess(string initialResponse);
 
-        public async Task<string> StartFlow()
+        public async Task<string> Authorise()
         {
             var port = GetRandomUnusedPort();
 
@@ -24,7 +25,9 @@ namespace WebPlaylistToSpotify.Auth
                 var authUrl = AuthUrl(listener.Url);
                 OpenBrowser(authUrl);
 
-                return await listener.WaitForCallbackAsync();
+                var initialResponse = await listener.WaitForCallbackAsync();
+
+                return await PostProcess(initialResponse);
             }
         }
 

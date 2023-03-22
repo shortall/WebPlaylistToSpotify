@@ -1,4 +1,5 @@
 ﻿using SpotifyAPI.Web;
+using System.Web;
 
 namespace WebPlaylistToSpotify.Auth
 {
@@ -33,13 +34,28 @@ namespace WebPlaylistToSpotify.Auth
             return loginRequest.ToUri().ToString();
         }
 
-        public async Task<string> GetToken(string code)
+        protected override async Task<string> PostProcess(string initialResponse)
         {
-            var initialResponse = await new OAuthClient().RequestToken(
+            var parsedQuery = HttpUtility.ParseQueryString(initialResponse);
+
+            var code = parsedQuery["code"];
+
+            if (code == null)
+            {
+                throw new InvalidOperationException("Missing authorisation code");
+            }
+
+            var token = await GetPkceToken(code);
+            return token;
+        }
+
+        private async Task<string> GetPkceToken(string code)
+        {
+            var pkceTokenResponse = await new OAuthClient().RequestToken(
                 new PKCETokenRequest(_clientId, code, new Uri(usedCallbackUri!), _verifier!)
             );
 
-            return initialResponse.AccessToken;
+            return pkceTokenResponse.AccessToken;
         }
     }
 }
