@@ -8,7 +8,7 @@ namespace WebPlaylistToSpotify.Auth
         private const string Sha256CodeChallengeMethod = "S256";
 
         private readonly string _clientId;
-        
+
         private string? _verifier;
 
         public SpotifyPkceBrowser(string clientId)

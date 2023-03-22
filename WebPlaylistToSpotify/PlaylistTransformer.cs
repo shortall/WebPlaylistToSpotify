@@ -16,7 +16,7 @@ namespace WebPlaylistToSpotify
             _appConfig = appConfigOptions.Value;
         }
 
-        public async Task Run() 
+        public async Task Run()
         {
             try
             {
@@ -28,7 +28,7 @@ namespace WebPlaylistToSpotify
                 var playlist = await CreatePlaylist(_appConfig, spotify);
                 await AddTracks(_appConfig, spotify, playlist);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
