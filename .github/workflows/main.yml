@@ -23,7 +23,7 @@ jobs:
       run: dotnet restore
       
     - name: Format code
-      run: dotnet tool install -g dotnet-format && dotnet-format
+      run: dotnet tool install -g dotnet-format && dotnet-format --check
 
     - name: Build
       run: dotnet build --configuration Release --warnaserror
