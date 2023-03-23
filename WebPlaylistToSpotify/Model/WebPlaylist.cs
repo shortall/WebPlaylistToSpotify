@@ -2,7 +2,7 @@
 
 namespace WebPlaylistToSpotify.Model
 {
-    internal class WebPlaylist
+    internal sealed class WebPlaylist
     {
         public string? Url { get; set; }
         public string? TrackNamesXPath { get; set; }

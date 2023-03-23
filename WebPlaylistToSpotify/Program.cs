@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿#pragma warning disable CA1852
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebPlaylistToSpotify;
 using WebPlaylistToSpotify.Model;

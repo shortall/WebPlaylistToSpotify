@@ -51,7 +51,7 @@ namespace WebPlaylistToSpotify.Auth
         private async Task<string> GetPkceToken(string code)
         {
             var pkceTokenResponse = await new OAuthClient().RequestToken(
-                new PKCETokenRequest(_clientId, code, new Uri(usedCallbackUri!), _verifier!)
+                new PKCETokenRequest(_clientId, code, new Uri(UsedCallbackUri!), _verifier!)
             );
 
             return pkceTokenResponse.AccessToken;

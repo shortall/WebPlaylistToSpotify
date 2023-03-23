@@ -10,7 +10,7 @@ namespace WebPlaylistToSpotify.Auth
     /// </summary>
     public abstract class OAuthBrowser
     {
-        protected string? usedCallbackUri;
+        protected string? UsedCallbackUri { get; private set; }
 
         protected abstract string AuthUrl(string callbackUrl);
         protected abstract Task<string> PostProcess(string initialResponse);
@@ -21,7 +21,7 @@ namespace WebPlaylistToSpotify.Auth
 
             using (var listener = new LoopbackHttpListener(port))
             {
-                usedCallbackUri = listener.Url;
+                UsedCallbackUri = listener.Url;
                 var authUrl = AuthUrl(listener.Url);
                 OpenBrowser(authUrl);
 
@@ -31,7 +31,7 @@ namespace WebPlaylistToSpotify.Auth
             }
         }
 
-        private void OpenBrowser(string url)
+        private static void OpenBrowser(string url)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace WebPlaylistToSpotify.Auth
             }
         }
 
-        private int GetRandomUnusedPort()
+        private static int GetRandomUnusedPort()
         {
             var listener = new TcpListener(IPAddress.Loopback, 0);
             listener.Start();

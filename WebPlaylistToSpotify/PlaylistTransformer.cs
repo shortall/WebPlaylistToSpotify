@@ -3,12 +3,11 @@ using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
 using System.Web;
 using WebPlaylistToSpotify.Auth;
-using WebPlaylistToSpotify.Extensions;
 using WebPlaylistToSpotify.Model;
 
 namespace WebPlaylistToSpotify
 {
-    internal class PlaylistTransformer
+    internal sealed class PlaylistTransformer
     {
         private readonly AppConfig _appConfig;
         public PlaylistTransformer(IOptions<AppConfig> appConfigOptions)
@@ -34,7 +33,7 @@ namespace WebPlaylistToSpotify
             }
         }
 
-        private async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist spotifyPlaylist)
+        private static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist spotifyPlaylist)
         {
             using (var httpClient = new HttpClient())
             {
@@ -50,11 +49,11 @@ namespace WebPlaylistToSpotify
             }
         }
 
-        private async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist spotifyPlaylist, string webPlaylistHtml, string? trackNamesXPath)
+        private static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist spotifyPlaylist, string webPlaylistHtml, string? trackNamesXPath)
         {
             if (spotifyPlaylist?.Id == null)
             {
-                throw new ArgumentNullException("spotifyPlaylist.Id");
+                throw new ArgumentNullException(nameof(spotifyPlaylist));
             }
 
             var doc = new HtmlDocument();
@@ -79,16 +78,9 @@ namespace WebPlaylistToSpotify
             }
         }
 
-        private string NewPlaylistName(WebPlaylistCollection collection)
+        private static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClient spotify)
         {
-            var now = DateTime.UtcNow;
-            var newPlaylistName = $"{collection.Name}-{now.ToShortMonthName()}-{now.Year}";
-            return newPlaylistName;
-        }
-
-        private async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClient spotify)
-        {
-            var newPlaylistName = NewPlaylistName(appConfig.WebPlaylistCollection);
+            var newPlaylistName = appConfig.WebPlaylistCollection.GenerateName();
             var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
             var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
 
@@ -96,7 +88,7 @@ namespace WebPlaylistToSpotify
             return playlist;
         }
 
-        private async Task<string> GetAuthToken(AppConfig appConfig)
+        private static async Task<string> GetAuthToken(AppConfig appConfig)
         {
             var browser = new SpotifyPkceBrowser(appConfig.SpotifyClientId);
             return await browser.Authorise();

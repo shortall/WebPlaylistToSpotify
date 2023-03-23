@@ -1,6 +1,6 @@
 ﻿namespace WebPlaylistToSpotify.Model
 {
-    internal class AppConfig
+    internal sealed class AppConfig
     {
         public string SpotifyUsername { get; set; } = string.Empty;
         public string SpotifyClientId { get; set; } = string.Empty;
