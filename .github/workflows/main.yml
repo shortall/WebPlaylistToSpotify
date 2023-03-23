@@ -27,19 +27,19 @@ jobs:
         env:
           DOTNET_ROOT: /usr/share/dotnet
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
         with:
           asset-path: ./bin/Release/net7.0/linux-x64/publish/*
           asset-name: WebPlaylistToSpotify-linux-x64
           asset-content-type: application/zip
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
         with:
           asset-path: ./bin/Release/net7.0/osx-x64/publish/*
           asset-name: WebPlaylistToSpotify-osx-x64
           asset-content-type: application/zip
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
         with:
           asset-path: ./bin/Release/net7.0/win-x64/publish/*
           asset-name: WebPlaylistToSpotify-win-x64
@@ -62,19 +62,19 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
         with:
           asset-path: ./bin/Release/net7.0/linux-x64/publish/*
           asset-name: WebPlaylistToSpotify-linux-x64
           asset-content-type: application/zip
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
         with:
           asset-path: ./bin/Release/net7.0/osx-x64/publish/*
           asset-name: WebPlaylistToSpotify-osx-x64
           asset-content-type: application/zip
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
         with:
           asset-path: ./bin/Release/net7.0/win-x64/publish/*
           asset-name: WebPlaylistToSpotify-win-x64
