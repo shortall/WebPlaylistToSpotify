@@ -2,9 +2,9 @@ name: Version and Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
       run: dotnet tool install --global Versionize
     - name: Setup git
       run: |
-        git config --local user.email "stephen_shortall@hotmail.com"
+        git config --local user.email "${{ secrets.GIT_EMAIL }}"
         git config --local user.name "Stephen Shortall"
     - name: Versionize Release
       id: versionize
