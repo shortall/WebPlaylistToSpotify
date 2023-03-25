@@ -1,81 +1,67 @@
-name: Release
+name: Version and Release
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        dotnet-version: [7.0.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Build
-        run: dotnet build --configuration Release
-      - name: Test
-        run: dotnet test --configuration Release
-      - name: Publish
-        run: dotnet publish --configuration Release --runtime ${{ matrix.runtime }} --self-contained true /p:PublishSingleFile=true /p:PublishTrimmed=true
-        env:
-          DOTNET_ROOT: /usr/share/dotnet
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset-path: ./bin/Release/net7.0/linux-x64/publish/*
-          asset-name: WebPlaylistToSpotify-linux-x64
-          asset-content-type: application/zip
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset-path: ./bin/Release/net7.0/osx-x64/publish/*
-          asset-name: WebPlaylistToSpotify-osx-x64
-          asset-content-type: application/zip
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset-path: ./bin/Release/net7.0/win-x64/publish/*
-          asset-name: WebPlaylistToSpotify-win-x64
-          asset-content-type: application/zip
-  release:
-    needs: build
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset-path: ./bin/Release/net7.0/linux-x64/publish/*
-          asset-name: WebPlaylistToSpotify-linux-x64
-          asset-content-type: application/zip
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset-path: ./bin/Release/net7.0/osx-x64/publish/*
-          asset-name: WebPlaylistToSpotify-osx-x64
-          asset-content-type: application/zip
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset-path: ./bin/Release/net7.0/win-x64/publish/*
-          asset-name: WebPlaylistToSpotify-win-x64
-          asset-content-type: application/zip
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Install Versionize
+      run: dotnet tool install --global Versionize
+    - name: Setup git
+      run: |
+        git config --local user.email "stephen_shortall@hotmail.com"
+        git config --local user.name "Stephen Shortall"
+    - name: Versionize Release
+      id: versionize
+      run: versionize --changelog-all --exit-insignificant-commits
+      continue-on-error: true
+    - name: No release required
+      if: steps.versionize.outcome != 'success'
+      run: echo "Skipping Release. No release required."
+    - name: Push changes to GitHub
+      if: steps.versionize.outcome == 'success'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        tags: true
+    - name: "Create release"
+      if: steps.versionize.outcome == 'success'
+      uses: "actions/github-script@v5"
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+        script: |
+          try {
+            const tags_url = context.payload.repository.tags_url + "?per_page=1"
+            const result = await github.request(tags_url)
+            const current_tag = result.data[0].name
+            await github.rest.repos.createRelease({
+              draft: false,
+              generate_release_notes: true,
+              name: current_tag,
+              owner: context.repo.owner,
+              prerelease: false,
+              repo: context.repo.repo,
+              tag_name: current_tag,
+            });
+          } catch (error) {
+            core.setFailed(error.message);
+          }
