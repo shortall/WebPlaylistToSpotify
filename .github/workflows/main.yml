@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        token: ${{ secrets.GH_TOKEN }}
+        token: ${{ secrets.REPO_READER_BOT }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
