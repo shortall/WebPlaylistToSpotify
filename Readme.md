@@ -8,8 +8,6 @@ This app will let you create a single Spotify playlist based on tracks listed in
 
 [VSCode XPath Tester Extension](https://marketplace.visualstudio.com/items?itemName=creinbacher.xpathtester)
 
-<br />
-
 # To use the app
 
 ## Step 1 - Create a Spotify app
@@ -24,7 +22,7 @@ The configuration file is appsettings.json
 
 ### An example configuraiton
 
-```json
+```javascript
 {
     "AppConfig": {
         "SpotifyUsername": "WhateverMySpotifyUsernameIs",      // Your Spotify username or email
@@ -49,8 +47,6 @@ The configuration file is appsettings.json
 ## Step 3 - Run
 
 Run WebPlaylistToSpotify.exe
-
-<br />
 
 # To contribute to the app
 
