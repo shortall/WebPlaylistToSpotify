@@ -22,7 +22,7 @@ The configuration file is appsettings.json
 
 ### An example configuraiton
 
-```javascript
+```yaml
 {
     "AppConfig": {
         "SpotifyUsername": "WhateverMySpotifyUsernameIs",      // Your Spotify username or email
