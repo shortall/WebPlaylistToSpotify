@@ -24,7 +24,7 @@ The configuration file is appsettings.json
 
 ### An example configuration
 
-```jsonc
+```json5
 {
     "AppConfig": {
         "SpotifyUsername": "WhateverMySpotifyUsernameIs",      // Your Spotify username or email
