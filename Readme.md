@@ -1,8 +1,10 @@
 # About
 
-This app will let you create a single Spotify playlist based on tracks listed in one or more web pages. You will need to come up with an XPath expression that will extract the track names from the web page. Useful links:
+This app will let you create a single Spotify playlist based on tracks listed in one or more web pages. You will need to come up with an XPath expression that will extract the track names from the web page.
 
 ![App Screenshot](AppScreenshot.png)
+
+Useful links:
 
 [W3Wchools XPath](https://www.w3schools.com/xml/xpath_intro.asp)
 
@@ -14,7 +16,7 @@ This app will let you create a single Spotify playlist based on tracks listed in
 
 * Go to https://developer.spotify.com/dashboard/applications
 * Create an application and make a note of the Client ID
-* Add a redirect URI of http://127.0.0.1/ (This is so when you authenticate via your browser it can post the access token back to the app)
+* Add a redirect URI of `http://127.0.0.1/` (This is so when you authenticate via your browser it can post the access token back to the app)
 
 ## Step 2 - Configure
 
