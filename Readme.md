@@ -2,7 +2,7 @@
 
 This app will let you create a single Spotify playlist based on tracks listed in one or more web pages. You will need to come up with an XPath expression that will extract the track names from the web page.
 
-![App Screenshot](AppScreenshot.png)
+![App Screenshot](AppCapture.gif)
 
 Useful links:
 
