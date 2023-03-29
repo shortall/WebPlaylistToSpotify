@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.2.0) (2023-3-25)
+
+### Features
+
+* Test autoversion ([9ccf48a](https://www.github.com/shortall/WebPlaylistToSpotify/commit/9ccf48a62a13d3b90622018582ab1415694b96f7))
+
+### Other
+
+* Change switch name to check ([1dcb526](https://www.github.com/shortall/WebPlaylistToSpotify/commit/1dcb52615d4555825e1a6248e544d2c13edda746))
+* Merge branch 'master' of https://github.com/shortall/BbcPlaylistToSpotify ([0f32da7](https://www.github.com/shortall/WebPlaylistToSpotify/commit/0f32da7a3e07d2f5240355797632eb3fa6793e28))
+
 <a name="0.1.0"></a>
 ## [0.1.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.1.0) (2023-3-25)
 
