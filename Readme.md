@@ -6,7 +6,7 @@ This app will let you create a single Spotify playlist based on tracks listed in
 
 Useful links:
 
-[W3Wchools XPath](https://www.w3schools.com/xml/xpath_intro.asp)
+[W3Schools XPath](https://www.w3schools.com/xml/xpath_intro.asp)
 
 [VSCode XPath Tester Extension](https://marketplace.visualstudio.com/items?itemName=creinbacher.xpathtester)
 
@@ -22,13 +22,13 @@ Useful links:
 
 The configuration file is appsettings.json
 
-### An example configuraiton
+### An example configuration
 
 ```yaml
 {
     "AppConfig": {
         "SpotifyUsername": "WhateverMySpotifyUsernameIs",      // Your Spotify username or email
-        "SpotifyClientId": "00000000000000000000000000000000", // The client ID of the applicaiton you created in your Spotify developer dashboard
+        "SpotifyClientId": "00000000000000000000000000000000", // The client ID of the application you created in your Spotify developer dashboard
         "WebPlaylistCollection": {
             "Name": "BbcRadio6&1",                             // This will be used in the naming of the new Spotify playlist
             "Playlists": [                                     // In this example we will import tracks from 2 playlists
