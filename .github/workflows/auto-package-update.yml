@@ -1,0 +1,53 @@
+name: Automated Package Update
+
+on:
+  schedule:
+    - cron:  '0 0 * * Sun'
+
+jobs:
+  dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v3
+      with:
+          fetch-depth: 0
+        token: ${{ secrets.REPO_READER_BOT }}
+
+    - name: Setup
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Tools
+      id: tools
+      run: dotnet tool install --global dotnet-outdated-tool
+
+    - name: Update
+      id: update
+      run: |
+        OUTPUT=$(dotnet outdated)
+        if [[ $OUTPUT =~ "No outdated dependencies were detected" ]]; then
+            echo "::set-output name=updated::false"
+        else
+            dotnet outdated -u
+        
+            echo "::set-output name=updated::true"
+        fi
+      shell: bash
+
+    - name: Test
+      id: test
+      if: ${{ steps.update.outputs.updated == 'true' }}
+      run: dotnet test -c Release -v minimal
+
+    - name: Push changes to GitHub
+      if: ${{ steps.update.outputs.updated == 'true' }}
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        tags: true
