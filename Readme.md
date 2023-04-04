@@ -1,3 +1,5 @@
+[![Version and Release](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml)
+
 # About
 
 This app will let you create a single Spotify playlist based on tracks listed in one or more web pages. You will need to come up with an XPath expression that will extract the track names from the web page.
