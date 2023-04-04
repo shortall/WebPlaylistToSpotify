@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using WebPlaylistToSpotify;
 using WebPlaylistToSpotify.Model;
 
@@ -19,16 +20,15 @@ try
     var appConfigSection = configRoot.GetSection("AppConfig");
     var serviceCollection = new ServiceCollection();
 
-    var transformer = serviceCollection
-        .Configure<AppConfig>(appConfigSection)
-        .AddSingleton<PlaylistTransformer, PlaylistTransformer>()
-        .BuildServiceProvider()
-        .GetService<PlaylistTransformer>();
+    serviceCollection.AddOptions<AppConfig>()
+           .Bind(appConfigSection)
+           .ValidateDataAnnotations();
 
-    if (transformer == null)
-    {
-        throw new InvalidOperationException("Failed to configure service collection");
-    }
+    var transformer = serviceCollection
+        .AddSingleton<IValidateOptions<AppConfig>, AppConfigValidator>()
+        .AddSingleton<PlaylistTransformer>()
+        .BuildServiceProvider()
+        .GetRequiredService<PlaylistTransformer>();
 
     await transformer.Run();
 }

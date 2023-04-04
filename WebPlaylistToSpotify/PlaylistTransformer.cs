@@ -37,7 +37,7 @@ namespace WebPlaylistToSpotify
         {
             using (var httpClient = new HttpClient())
             {
-                foreach (var webPlaylist in appConfig.WebPlaylistCollection.Playlists)
+                foreach (var webPlaylist in appConfig.WebPlaylistConfig.Playlists)
                 {
                     Console.WriteLine($"Downloading playlist: {webPlaylist.Url}");
                     var html = await httpClient.GetStringAsync(webPlaylist.Url);
@@ -80,7 +80,7 @@ namespace WebPlaylistToSpotify
 
         private static async Task<FullPlaylist> CreatePlaylist(AppConfig appConfig, SpotifyClient spotify)
         {
-            var newPlaylistName = appConfig.WebPlaylistCollection.GenerateName();
+            var newPlaylistName = appConfig.WebPlaylistConfig.GenerateName();
             var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
             var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
 
