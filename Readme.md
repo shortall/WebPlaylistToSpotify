@@ -18,7 +18,7 @@ Useful links:
 
 * Go to https://developer.spotify.com/dashboard/applications
 * Create an application and make a note of the Client ID
-* Add a redirect URI of `http://127.0.0.1/` (This is so when you authenticate via your browser it will pass the access token back to the app)
+* Add a redirect URI of `http://127.0.0.1/` (This is so when you authorise via your browser it will pass the access token back to the app)
 
 ## Step 2 - Configure
 
