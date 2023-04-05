@@ -9,10 +9,9 @@ on:
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ubuntu-latest
+    outputs:
+      versionise_outcome: ${{ steps.versionize.outcome }}
     permissions:
       contents: write
     steps:
@@ -20,14 +19,64 @@ jobs:
       with:
         fetch-depth: 0
         token: ${{ secrets.REPO_READER_BOT }}
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Format code
       run: dotnet tool install -g dotnet-format && dotnet-format --check
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Install Versionize
+      run: dotnet tool install --global Versionize
+
+    - name: Setup git
+      run: |
+        git config --local user.email "${{ secrets.GIT_EMAIL }}"
+        git config --local user.name "Stephen Shortall"
+
+    - name: Versionize Release
+      id: versionize
+      run: versionize --changelog-all --exit-insignificant-commits
+      continue-on-error: true
+
+    - name: No release required
+      if: steps.versionize.outcome != 'success'
+      run: echo "Skipping Release. No release required."
+
+    - name: Push changes to GitHub
+      if: steps.versionize.outcome == 'success'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        tags: true
+
+  publish:
+    needs: build
+    if: needs.build.outputs.versionize_outcome == 'success'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.REPO_READER_BOT }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
     - name: Build
       shell: bash
       run: |
@@ -40,37 +89,17 @@ jobs:
 
         # Pack files
         if [ "${{ matrix.target }}" == "win-x64" ]; then
-          7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          echo "RELEASE_NAME=${release_name}.zip" >> $GITHUB_ENV
+          7z a -tzip "${release_name}.zip" "${release_name}/*"
+          echo "RELEASE_ARCHIVE=${release_name}.zip" >> $GITHUB_ENV
         else
           tar czvf "${release_name}.tar.gz" "$release_name"
-          echo "RELEASE_NAME=${release_name}.tar.gz" >> $GITHUB_ENV
+          echo "RELEASE_ARCHIVE=${release_name}.tar.gz" >> $GITHUB_ENV
         fi
 
         # Delete output directory
         rm -r "$release_name"
-    - name: Install Versionize
-      run: dotnet tool install --global Versionize
-    - name: Setup git
-      run: |
-        git config --local user.email "${{ secrets.GIT_EMAIL }}"
-        git config --local user.name "Stephen Shortall"
-    - name: Versionize Release
-      id: versionize
-      run: versionize --changelog-all --exit-insignificant-commits
-      continue-on-error: true
-    - name: No release required
-      if: steps.versionize.outcome != 'success'
-      run: echo "Skipping Release. No release required."
-    - name: Push changes to GitHub
-      if: steps.versionize.outcome == 'success'
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-        tags: true
+
     - name: "Create release"
-      if: steps.versionize.outcome == 'success'
       uses: "actions/github-script@v6"
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -88,7 +117,7 @@ jobs:
               repo: context.repo.repo,
               tag_name: current_tag,
             });
-            
+
             const release = await github.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -103,8 +132,9 @@ jobs:
               repo: context.repo.repo,
               release_id: release.data.id,
               name: ${{ steps.Build.outputs.RELEASE_NAME }},
-              data: await fs.readFileSync(${{ steps.Build.outputs.RELEASE_NAME }})
+              data: await fs.readFileSync(../${{ steps.Build.outputs.RELEASE_ARCHIVE }})
             });
+
           } catch (error) {
             core.setFailed(error.message);
           }
