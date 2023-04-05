@@ -1,4 +1,4 @@
-[![Version and Release](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml)
+[![Version and Release](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml) [![Automated Package Update](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/auto-package-update.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/auto-package-update.yml)
 
 # About
 
@@ -18,7 +18,7 @@ Useful links:
 
 * Go to https://developer.spotify.com/dashboard/applications
 * Create an application and make a note of the Client ID
-* Add a redirect URI of `http://127.0.0.1/` (This is so when you authenticate via your browser it can post the access token back to the app)
+* Add a redirect URI of `http://127.0.0.1/` (This is so when you authenticate via your browser it will pass the access token back to the app)
 
 ## Step 2 - Configure
 
@@ -55,3 +55,7 @@ Run WebPlaylistToSpotify.exe
 # To contribute to the app
 
 This repo is setup to use [verisonise](https://github.com/versionize/versionize). To bump the version automatically format your commit message accordingly.
+
+# Point of interest
+
+In terms of the code the part of this that might be useful reference for others is the example of the Spotify auth flow with PKCE from the command line
