@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0"></a>
+## [0.4.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.4.0) (2023-4-5)
+
+### Features
+
+* Try update main action to attach binaries to release (#12) ([c357ca6](https://www.github.com/shortall/WebPlaylistToSpotify/commit/c357ca61e545736d02ffd2130de2506e487c0fa2))
+
+### Bug Fixes
+
+* test ([c693791](https://www.github.com/shortall/WebPlaylistToSpotify/commit/c693791a39710730dd3e2f7514351e279e642b9a))
+* Test pipeline ([92c6ef0](https://www.github.com/shortall/WebPlaylistToSpotify/commit/92c6ef0d5a5e3bddd217545b8ac21de774ca841d))
+
+### Other
+
+* Merge branch 'main' of https://github.com/shortall/BbcPlaylistToSpotify into main ([fefc804](https://www.github.com/shortall/WebPlaylistToSpotify/commit/fefc804b2e26ec0464d26ced05ee87f8bb974107))
+* try publish higher up (#14) ([21075f0](https://www.github.com/shortall/WebPlaylistToSpotify/commit/21075f011e2d983a5fb9d0f2f867cc71fc19b325))
+* Update Readme ([9c6e83c](https://www.github.com/shortall/WebPlaylistToSpotify/commit/9c6e83cfa0191a82a6b8d1f57867373729b05461))
+
 <a name="0.3.0"></a>
 ## [0.3.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.0) (2023-4-4)
 
