@@ -36,19 +36,19 @@ jobs:
         release_name="App-$tag-${{ matrix.target }}"
 
         # Build everything
-        dotnet publish ./WebPlaylistToSpotify/WebPlaylistToSpotify.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+        dotnet publish ./WebPlaylistToSpotify/WebPlaylistToSpotify.csproj --runtime "${{ matrix.target }}" -c Release -o "../$release_name"
 
         # Pack files
         if [ "${{ matrix.target }}" == "win-x64" ]; then
-          7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          echo "RELEASE_NAME=${release_name}.zip" >> $GITHUB_ENV
+          7z a -tzip "../${release_name}.zip" "../${release_name}/*"
+          echo "RELEASE_ARCHIVE=${release_name}.zip" >> $GITHUB_ENV
         else
-          tar czvf "${release_name}.tar.gz" "$release_name"
-          echo "RELEASE_NAME=${release_name}.tar.gz" >> $GITHUB_ENV
+          tar czvf "../${release_name}.tar.gz" "../$release_name"
+          echo "RELEASE_ARCHIVE=${release_name}.tar.gz" >> $GITHUB_ENV
         fi
 
         # Delete output directory
-        rm -r "$release_name"
+        rm -r "../$release_name"
     - name: Install Versionize
       run: dotnet tool install --global Versionize
     - name: Setup git
@@ -103,7 +103,7 @@ jobs:
               repo: context.repo.repo,
               release_id: release.data.id,
               name: ${{ steps.Build.outputs.RELEASE_NAME }},
-              data: await fs.readFileSync(${{ steps.Build.outputs.RELEASE_NAME }})
+              data: await fs.readFileSync(../${{ steps.Build.outputs.RELEASE_ARCHIVE }})
             });
           } catch (error) {
             core.setFailed(error.message);
