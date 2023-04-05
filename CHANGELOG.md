@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.1"></a>
+## [0.4.1](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.4.1) (2023-4-5)
+
+### Bug Fixes
+
+* typo ([42c43c0](https://www.github.com/shortall/WebPlaylistToSpotify/commit/42c43c0d882576d2bc28de7996af370cdc26d88c))
+
+### Other
+
+* Merge branch 'main' of https://github.com/shortall/WebPlaylistToSpotify ([60e34da](https://www.github.com/shortall/WebPlaylistToSpotify/commit/60e34da030ba2551e7d27d22972c4879c3bf63eb))
+
 <a name="0.4.0"></a>
 ## [0.4.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.4.0) (2023-4-5)
 
