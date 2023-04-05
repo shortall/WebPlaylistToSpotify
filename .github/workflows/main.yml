@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     outputs:
-      versionise_outcome: ${{ steps.versionize.outcome }}
+      versionize_outcome: ${{ steps.versionize.outcome }}
     permissions:
       contents: write
     steps:
