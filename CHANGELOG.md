@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.0"></a>
+## [0.3.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.0) (2023-4-4)
+
+### Features
+
+* **config:** Use DataAnnotations / IValidateOptions ([dfa430b](https://www.github.com/shortall/WebPlaylistToSpotify/commit/dfa430b321766693f087222592671cd4811c58a8))
+
+### Bug Fixes
+
+* **format:** Whitespace ([e2523b4](https://www.github.com/shortall/WebPlaylistToSpotify/commit/e2523b4de419d5be5eae87a041c44cf5060c91c6))
+
+### Other
+
+* Add nuget auto update ([f3188ad](https://www.github.com/shortall/WebPlaylistToSpotify/commit/f3188ad1efd61d9100103990c23c14678d7cb76a))
+* Merge branch 'main' of https://github.com/shortall/WebPlaylistToSpotify ([52c5752](https://www.github.com/shortall/WebPlaylistToSpotify/commit/52c575245cf6a8144d2537133ae8996b9f8db851))
+* Merge branch 'master' of https://github.com/shortall/BbcPlaylistToSpotify ([a53521c](https://www.github.com/shortall/WebPlaylistToSpotify/commit/a53521c9f3e243064cc0b684cec3506a2ac6c102))
+* Add animated gif to readme ([4304a8c](https://www.github.com/shortall/WebPlaylistToSpotify/commit/4304a8cd477a66e60179a184e4f7c36452f16c5e))
+* fix action ([8f25a88](https://www.github.com/shortall/WebPlaylistToSpotify/commit/8f25a886a5c6d38fc09c6589809d7298ab68f092))
+* fix action ([3356094](https://www.github.com/shortall/WebPlaylistToSpotify/commit/3356094b277a886d09ebfb46224b95c44a040684))
+* jsonc = Json with comments ([3c9729d](https://www.github.com/shortall/WebPlaylistToSpotify/commit/3c9729d650a7762b326e2e9b14e7ce0cd216e1e1))
+* Spelling ([c9524e4](https://www.github.com/shortall/WebPlaylistToSpotify/commit/c9524e45c7d52ee041b1754425a4ef7d39e27566))
+* tidy ([553b482](https://www.github.com/shortall/WebPlaylistToSpotify/commit/553b4828b8697692bfd7329f4d6bcf55532f221c))
+* Try json5 ([a9d83c2](https://www.github.com/shortall/WebPlaylistToSpotify/commit/a9d83c27490a2abc90bafba54892a4930289ad9c))
+* **action:** Update to use GITHUB_OUTPUT, std_out deprecated ([42ed039](https://www.github.com/shortall/WebPlaylistToSpotify/commit/42ed039ea024557f642945150e566c02e562b3c6))
+* **actions:** Update trunk branch name ([55e7876](https://www.github.com/shortall/WebPlaylistToSpotify/commit/55e787658ba44959d7ab30881ad045582fcc8a64))
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.2.2) (2023-3-29)
 

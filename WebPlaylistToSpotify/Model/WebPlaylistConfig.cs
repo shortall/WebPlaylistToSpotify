@@ -1,9 +1,11 @@
-﻿using WebPlaylistToSpotify.Extensions;
+﻿using System.ComponentModel.DataAnnotations;
+using WebPlaylistToSpotify.Extensions;
 
 namespace WebPlaylistToSpotify.Model
 {
-    internal sealed class WebPlaylistCollection
+    public sealed class WebPlaylistConfig
     {
+        [Required]
         public string Name { get; set; } = String.Empty;
 
         public List<WebPlaylist> Playlists { get; set; } = new List<WebPlaylist>();
