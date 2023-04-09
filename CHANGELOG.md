@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.2"></a>
+## [0.4.2](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.4.2) (2023-4-9)
+
+### Bug Fixes
+
+* Filter empty track names ([38f19d4](https://www.github.com/shortall/WebPlaylistToSpotify/commit/38f19d482f54e4f2b5f914939545a50e010e86a0))
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.4.1) (2023-4-5)
 
