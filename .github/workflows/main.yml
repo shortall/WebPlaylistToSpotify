@@ -118,25 +118,25 @@ jobs:
               tag_name: current_tag,
             });
 
-            const release = await github.repos.getReleaseByTag({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              current_tag
-            });
+          #  const release = await github.repos.getReleaseByTag({
+          #    owner: context.repo.owner,
+          #    repo: context.repo.repo,
+          #    current_tag
+          #  });
             
-            tag=$(git describe --tags --abbrev=0)
-            release_name="App-$tag-${{ matrix.target }}"
+          #  tag=$(git describe --tags --abbrev=0)
+          #  release_name="App-$tag-${{ matrix.target }}"
 
-            await github.repos.uploadReleaseAsset({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: release.data.id,
-              name: ${{ steps.Build.outputs.RELEASE_NAME }},
-              data: await fs.readFileSync(../${{ steps.Build.outputs.RELEASE_ARCHIVE }})
-            });
+          #  await github.repos.uploadReleaseAsset({
+          #    owner: context.repo.owner,
+          #    repo: context.repo.repo,
+          #    release_id: release.data.id,
+          #    name: ${{ steps.Build.outputs.RELEASE_NAME }},
+          #    data: await fs.readFileSync(${{ steps.Build.outputs.RELEASE_ARCHIVE }})
+          #  });
 
-          } catch (error) {
-            core.setFailed(error.message);
-          }
+          #} catch (error) {
+          #  core.setFailed(error.message);
+          #}
 
 
