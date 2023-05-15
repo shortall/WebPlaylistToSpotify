@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file. See [versio
 <a name="0.1.38"></a>
 ## [0.1.38](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.1.38) (2023-5-15)
 
+### Other
+
+* Reset Repo ([bcc5a51](https://www.github.com/shortall/WebPlaylistToSpotify/commit/bcc5a51a4567b26bf5c85d9d9aff23a0e72d9902))
+
+<a name="0.1.38"></a>
+## [0.1.38](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.1.38) (2023-5-15)
+
 ### Bug Fixes
 
 * test ([74fa21d](https://www.github.com/shortall/WebPlaylistToSpotify/commit/74fa21d83dd931fc1f38fa06d337c5315d18777b))
