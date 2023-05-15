@@ -1,0 +1,112 @@
+name: Version and Release 2
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    outputs:
+      versionize_outcome: ${{ steps.versionize.outcome }}
+      current_tag: ${{ steps.create-release.outputs.current_tag }}
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.REPO_READER_BOT }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Format code
+      run: dotnet tool install -g dotnet-format && dotnet-format --check
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Install Versionize
+      run: dotnet tool install --global Versionize
+
+    - name: Setup git
+      run: |
+        git config --local user.email "${{ secrets.GIT_EMAIL }}"
+        git config --local user.name "Stephen Shortall"
+
+    - name: Versionize Release
+      id: versionize
+      run: versionize --changelog-all --exit-insignificant-commits
+      continue-on-error: true
+
+    - name: No release required
+      if: steps.versionize.outcome != 'success'
+      run: echo "Skipping Release. No release required."
+
+    - name: Push changes to GitHub
+      if: steps.versionize.outcome == 'success'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        tags: true
+
+    - name: Create Release
+      id: create-release
+      if: steps.versionize.outcome == 'success'
+      run: |
+        tag=$(git describe --tags --abbrev=0)
+        echo "current_tag=${tag}" >> "$GITHUB_OUTPUT"
+        gh release create $tag --generate-notes
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: build
+    if: needs.build.outputs.versionize_outcome == 'success'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [win-x64, osx-x64, linux-x64]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.REPO_READER_BOT }}
+        ref: ${{ needs.build.outputs.current_tag }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Publish
+      shell: bash
+      run: |
+        release_name="${{ needs.build.outputs.current_tag }}-${{ matrix.target }}"
+
+        dotnet publish ./WebPlaylistToSpotify/WebPlaylistToSpotify.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+        
+        if [ "${{ matrix.target }}" == "win-x64" ]; then
+          7z a -tzip "${release_name}.zip" "${release_name}/*"
+          RELEASE_ARCHIVE="${release_name}.zip"
+        else
+          tar czvf "${release_name}.tar.gz" "$release_name"
+          RELEASE_ARCHIVE="${release_name}.tar.gz"
+        fi
+        
+        rm -r "$release_name"
+
+        gh release upload ${{ needs.build.outputs.current_tag }} $RELEASE_ARCHIVE
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        

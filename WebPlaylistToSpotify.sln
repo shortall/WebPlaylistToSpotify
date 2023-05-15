@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebPlaylistToSpotify", "WebPlaylistToSpotify\WebPlaylistToSpotify.csproj", "{ED9F4F2B-88C1-4F19-83D7-44D562375F40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{1B05822A-7778-44B2-A36A-7D7BB86506F2}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\auto-package-update.yml = .github\workflows\auto-package-update.yml
+		Readme.md = Readme.md
+		.github\workflows\version-and-release.yml = .github\workflows\version-and-release.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED9F4F2B-88C1-4F19-83D7-44D562375F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED9F4F2B-88C1-4F19-83D7-44D562375F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED9F4F2B-88C1-4F19-83D7-44D562375F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED9F4F2B-88C1-4F19-83D7-44D562375F40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A8BD81E-8C00-4468-AFED-0DEA8D75A9E4}
+	EndGlobalSection
+EndGlobal
