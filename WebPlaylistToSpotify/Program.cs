@@ -31,9 +31,20 @@ try
 
     await transformer.Run();
 }
+catch(OptionsValidationException ex)
+{
+    Console.WriteLine($"Options validation failure");
+    foreach(var failure in ex.Failures)
+    {
+        Console.WriteLine(failure);
+    }
+}
 catch (Exception ex)
 {
     Console.WriteLine($"Error: {ex}");
+}
+finally
+{
     Console.WriteLine($"Hit <Enter> to finish");
     Console.ReadLine();
 }
