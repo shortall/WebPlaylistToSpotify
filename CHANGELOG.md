@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.0.1"></a>
+## [0.0.1](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.0.1) (2023-5-17)
+
+### Bug Fixes
+
+* Improve validation messaging ([c2e3cd3](https://www.github.com/shortall/WebPlaylistToSpotify/commit/c2e3cd3b418bd108c4d2963321ff8f35037954ce))
+
+### Other
+
+* Formatting ([514f3cf](https://www.github.com/shortall/WebPlaylistToSpotify/commit/514f3cf1d98aa783eefb5106d49eccfb177f0e57))
+
 <a name="0.0.0"></a>
 ## [0.0.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.0.0) (2023-5-15)
 
