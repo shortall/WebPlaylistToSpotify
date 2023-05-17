@@ -1,4 +1,4 @@
-[![Version and Release 2](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/version-and-release.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/main.yml) [![Automated Package Update](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/auto-package-update.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/auto-package-update.yml)
+[![Version and Release 2](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/version-and-release.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/version-and-release.yml) [![Automated Package Update](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/auto-package-update.yml/badge.svg)](https://github.com/shortall/WebPlaylistToSpotify/actions/workflows/auto-package-update.yml)
 
 # About
 
