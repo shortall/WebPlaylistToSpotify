@@ -17,20 +17,13 @@ namespace WebPlaylistToSpotify
 
         public async Task Run()
         {
-            try
-            {
-                var token = await GetAuthToken(_appConfig);
-                var spotify = new SpotifyClient(token);
+            var token = await GetAuthToken(_appConfig);
+            var spotify = new SpotifyClient(token);
 
-                Console.WriteLine("Starting...");
+            Console.WriteLine("Starting...");
 
-                var playlist = await CreatePlaylist(_appConfig, spotify);
-                await AddTracks(_appConfig, spotify, playlist);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            var playlist = await CreatePlaylist(_appConfig, spotify);
+            await AddTracks(_appConfig, spotify, playlist);
         }
 
         private static async Task AddTracks(AppConfig appConfig, SpotifyClient spotify, FullPlaylist spotifyPlaylist)
@@ -85,7 +78,7 @@ namespace WebPlaylistToSpotify
             var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
             var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
 
-            Console.WriteLine($"Created spotify playlist: {newPlaylistName}");
+            Console.WriteLine($"Created Spotify playlist: {newPlaylistName}");
             return playlist;
         }
 

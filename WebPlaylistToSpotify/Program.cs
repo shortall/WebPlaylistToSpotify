@@ -33,7 +33,8 @@ try
 }
 catch (OptionsValidationException ex)
 {
-    Console.WriteLine($"Options validation failure");
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"Options validation failure:");
     foreach (var failure in ex.Failures)
     {
         Console.WriteLine(failure);
@@ -41,10 +42,6 @@ catch (OptionsValidationException ex)
 }
 catch (Exception ex)
 {
+    Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine($"Error: {ex}");
-}
-finally
-{
-    Console.WriteLine($"Hit <Enter> to finish");
-    Console.ReadLine();
 }
