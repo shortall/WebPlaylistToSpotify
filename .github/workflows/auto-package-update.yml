@@ -51,5 +51,5 @@ jobs:
       run: |
         git config --local user.email "${{ secrets.GIT_EMAIL }}"
         git config --local user.name "Stephen Shortall"
-        git commit -m 'Dependency verison auto-update'
+        git commit -a -m 'Dependency verison auto-update'
         git push
