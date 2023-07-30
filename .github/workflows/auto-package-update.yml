@@ -33,11 +33,11 @@ jobs:
       run: |
         OUTPUT=$(dotnet outdated)
         if [[ $OUTPUT =~ "No outdated dependencies were detected" ]]; then
-            echo "{updated}={false}" >> $GITHUB_OUTPUT
+            echo "updated=false" >> $GITHUB_OUTPUT
         else
             dotnet outdated -u
         
-            echo "{updated}={true}" >> $GITHUB_OUTPUT
+            echo "updated=true" >> $GITHUB_OUTPUT
         fi
       shell: bash
 
