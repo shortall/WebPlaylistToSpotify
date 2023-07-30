@@ -46,17 +46,10 @@ jobs:
       if: ${{ steps.update.outputs.updated == 'true' }}
       run: dotnet test -c Release -v minimal
 
-    - name: Commit changes
+    - name: Push changes to GitHub
       if: ${{ steps.update.outputs.updated == 'true' }}
       run: |
         git config --local user.email "${{ secrets.GIT_EMAIL }}"
         git config --local user.name "Stephen Shortall"
         git commit -a -m 'Dependency verison auto-update'
-
-    - name: Push changes to GitHub
-      if: ${{ steps.update.outputs.updated == 'true' }}
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-        tags: true
+        git push
