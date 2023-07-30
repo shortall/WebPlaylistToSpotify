@@ -48,8 +48,8 @@ jobs:
 
     - name: Push changes to GitHub
       if: ${{ steps.update.outputs.updated == 'true' }}
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-        tags: true
+      run: |
+        git config --local user.email "${{ secrets.GIT_EMAIL }}"
+        git config --local user.name "Stephen Shortall"
+        git commit -m 'Dependency verison auto-update'
+        git push
