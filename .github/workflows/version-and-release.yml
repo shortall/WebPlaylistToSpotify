@@ -109,4 +109,3 @@ jobs:
         gh release upload ${{ needs.build.outputs.current_tag }} $RELEASE_ARCHIVE
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
