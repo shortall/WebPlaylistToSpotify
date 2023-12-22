@@ -64,7 +64,7 @@ namespace WebPlaylistToSpotify
                 var searchRequest = new SearchRequest(SearchRequest.Types.Track, track);
                 var searchResponse = await spotify.Search.Item(searchRequest);
 
-                if (searchResponse.Tracks.Items != null && searchResponse.Tracks.Items.Any())
+                if (searchResponse.Tracks.Items != null && searchResponse.Tracks.Items.Count > 0)
                 {
                     var trackUris = new PlaylistAddItemsRequest(new List<string>() { searchResponse.Tracks.Items.First().Uri });
                     await spotify.Playlists.AddItems(spotifyPlaylist.Id, trackUris);
