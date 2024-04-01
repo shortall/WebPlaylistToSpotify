@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.2.0) (2024-04-01)
+
+### Features
+
+* Refine track extraction ([60b5874](https://www.github.com/shortall/WebPlaylistToSpotify/commit/60b5874ce4e23d43593b82df1f688a9248cdba68))
+
+### Other
+
+* Dependency verison auto-update ([04e1ba1](https://www.github.com/shortall/WebPlaylistToSpotify/commit/04e1ba1af544ce61565bcc5299e0e37507c295e5))
+* Dependency verison auto-update ([07351b4](https://www.github.com/shortall/WebPlaylistToSpotify/commit/07351b477a8facff07b85608bfbdccf842d48cce))
+* Dependency verison auto-update ([78e7b03](https://www.github.com/shortall/WebPlaylistToSpotify/commit/78e7b03b2c999a2b7b9481d31e1a44a398fd85e5))
+* Dependency verison auto-update ([8e0b687](https://www.github.com/shortall/WebPlaylistToSpotify/commit/8e0b6873a99cef098c6cdfc1592db68f0fb5194d))
+* Dependency verison auto-update ([d963e82](https://www.github.com/shortall/WebPlaylistToSpotify/commit/d963e82208600cd836650ccecb75fb046504c382))
+* Dependency verison auto-update ([4d113fb](https://www.github.com/shortall/WebPlaylistToSpotify/commit/4d113fbe66b2f7e0b0d98dbae6a9fc1bdd3f31fc))
+
 <a name="0.1.0"></a>
 ## [0.1.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.1.0) (2023-12-22)
 
