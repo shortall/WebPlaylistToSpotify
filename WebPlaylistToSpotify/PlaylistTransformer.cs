@@ -54,7 +54,7 @@ namespace WebPlaylistToSpotify
 
             var tracks = doc.DocumentNode
                 .SelectNodes(trackNamesXPath)
-                .Select(x => HttpUtility.HtmlDecode(x.InnerText))
+                .Select(x => HttpUtility.HtmlDecode(x.InnerText).Trim())
                 .Where(t => !string.IsNullOrWhiteSpace(t));
 
             foreach (var track in tracks)
