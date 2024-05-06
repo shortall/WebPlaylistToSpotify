@@ -15,7 +15,7 @@ namespace WebPlaylistToSpotify.Model
         internal string GenerateName()
         {
             var now = DateTime.UtcNow;
-            var newPlaylistName = $"{Name}-{now.ToShortMonthName()}-{now.Year}";
+            var newPlaylistName = $"{Name}-{now.ToShortMonthName()}{now.Day:00}-{now.Year}";
             return newPlaylistName;
         }
     }
