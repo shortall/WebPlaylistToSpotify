@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.0"></a>
+## [0.3.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.0) (2024-05-06)
+
+### Features
+
+* Add day to the playlist name ([0dbc165](https://www.github.com/shortall/WebPlaylistToSpotify/commit/0dbc165f83e984e77b427a06d37c63dc42723ed8))
+
+### Other
+
+* Dependency verison auto-update ([72aba44](https://www.github.com/shortall/WebPlaylistToSpotify/commit/72aba44979332d4af76e7eff8995bc6a17e98723))
+
 <a name="0.2.0"></a>
 ## [0.2.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.2.0) (2024-04-01)
 
