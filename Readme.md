@@ -28,22 +28,20 @@ The configuration file is appsettings.json
 
 ```json5
 {
-    "AppConfig": {
-        "SpotifyUsername": "WhateverMySpotifyUsernameIs",      // Your Spotify username or email
-        "SpotifyClientId": "00000000000000000000000000000000", // The client ID of the application you created in your Spotify developer dashboard
-        "WebPlaylistCollection": {
-            "Name": "BbcRadio6&1",                             // This will be used in the naming of the new Spotify playlist
-            "Playlists": [                                     // In this example we will import tracks from 2 playlists
-                {
-                    "Url": "https://www.bbc.co.uk/programmes/articles/5JDPyPdDGs3yCLdtPhGgWM7/bbc-radio-6-music-playlist",                // URL of the first playlist 
-                    "TrackNamesXPath": "(//div[@class='text--prose']/p)[position()>1]"                                                    // XPath to extract track names
-                },
-                {
-                    "Url": "https://www.bbc.co.uk/programmes/articles/3tqPdBWF9yMbTrfjWvfKV8t/radio-1-playlist",                          // URL of the second playlist 
-                    "TrackNamesXPath": "(//div[@class='text--prose']/p)[position()>1]/descendant-or-self::*[contains(text(),'-')]/text()" // XPath to extract track names
-                }
-            ]
-        }
+    "SpotifyUsername": "WhateverMySpotifyUsernameIs",      // Your Spotify username or email
+    "SpotifyClientId": "00000000000000000000000000000000", // The client ID of the application you created in your Spotify developer dashboard
+    "WebPlaylistConfig": {
+        "Name": "BbcRadio6&1",                             // This will be used in the naming of the new Spotify playlist
+        "Playlists": [                                     // In this example we will import tracks from 2 playlists
+            {
+                "Url": "https://www.bbc.co.uk/programmes/articles/5JDPyPdDGs3yCLdtPhGgWM7/bbc-radio-6-music-playlist",                       // URL of the first playlist 
+                "TrackNamesXPath": "(//div[@class='text--prose']/p)/descendant-or-self::*[contains(text(),'-')]/text()[normalize-space()]"   // XPath to extract track names
+            },
+            {
+                "Url": "https://www.bbc.co.uk/programmes/articles/3tqPdBWF9yMbTrfjWvfKV8t/radio-1-playlist",                                 // URL of the second playlist 
+                "TrackNamesXPath": "(//div[@class='text--prose']/p)/descendant-or-self::*[contains(text(),'-')]/text()[normalize-space()]"   // XPath to extract track names
+            }
+        ]
     }
 }
 ```
