@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.1) (2025-03-16)
+
+### Bug Fixes
+
+* fix build after dependency auto update ([c0baec7](https://www.github.com/shortall/WebPlaylistToSpotify/commit/c0baec7b362dae045f69c98b1c9afaa7f3b7a476))
+* remove deprecated versionise switch ([a6e9ac3](https://www.github.com/shortall/WebPlaylistToSpotify/commit/a6e9ac36da11902b0a398aba3dbe18fe858a4968))
+
 <a name="0.3.0"></a>
 ## [0.3.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.0) (2024-05-06)
 
