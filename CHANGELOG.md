@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.2"></a>
+## [0.3.2](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.2) (2025-03-16)
+
+### Bug Fixes
+
+* Update publish agent to .NET 8 ([877c2c2](https://www.github.com/shortall/WebPlaylistToSpotify/commit/877c2c2f6a894e69070c86296eb529955a386c7f))
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.3.1) (2025-03-16)
 
