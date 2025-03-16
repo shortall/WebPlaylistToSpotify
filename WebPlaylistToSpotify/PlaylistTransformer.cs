@@ -44,10 +44,8 @@ namespace WebPlaylistToSpotify
 
         private static async Task AddWebPlaylist(SpotifyClient spotify, FullPlaylist spotifyPlaylist, string webPlaylistHtml, string? trackNamesXPath)
         {
-            if (spotifyPlaylist?.Id == null)
-            {
-                throw new ArgumentNullException(nameof(spotifyPlaylist));
-            }
+            ArgumentNullException.ThrowIfNull(spotifyPlaylist?.Id);
+            ArgumentNullException.ThrowIfNull(trackNamesXPath);
 
             var doc = new HtmlDocument();
             doc.LoadHtml(webPlaylistHtml);
