@@ -50,8 +50,13 @@ namespace WebPlaylistToSpotify
             var doc = new HtmlDocument();
             doc.LoadHtml(webPlaylistHtml);
 
-            var tracks = doc.DocumentNode
-                .SelectNodes(trackNamesXPath)
+            var nodes = doc.DocumentNode.SelectNodes(trackNamesXPath);
+            if (nodes == null)
+            {
+                throw new InvalidOperationException("No tracks found using the provided XPath.");
+            }
+
+            var tracks = nodes
                 .Select(x => HttpUtility.HtmlDecode(x.InnerText).Trim())
                 .Where(t => !string.IsNullOrWhiteSpace(t));
 
