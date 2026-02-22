@@ -70,7 +70,7 @@ namespace WebPlaylistToSpotify
                 if (searchResponse.Tracks.Items != null && searchResponse.Tracks.Items.Count > 0)
                 {
                     var trackUris = new PlaylistAddItemsRequest(new List<string>() { searchResponse.Tracks.Items.First().Uri });
-                    await spotify.Playlists.AddItems(spotifyPlaylist.Id, trackUris);
+                    await spotify.Playlists.AddPlaylistItems(spotifyPlaylist.Id, trackUris);
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace WebPlaylistToSpotify
         {
             var newPlaylistName = appConfig.WebPlaylistConfig.GenerateName();
             var playlistCresteRequest = new PlaylistCreateRequest(newPlaylistName);
-            var playlist = await spotify.Playlists.Create(appConfig.SpotifyUsername, playlistCresteRequest);
+            var playlist = await spotify.Playlists.Create(playlistCresteRequest);
 
             Console.WriteLine($"Created Spotify playlist: {newPlaylistName}");
             return playlist;
