@@ -25,9 +25,9 @@ namespace WebPlaylistToSpotify.Auth
 
             var builder = WebApplication.CreateBuilder();
             builder.WebHost.UseKestrel().UseUrls(_url);
-            
+
             _app = builder.Build();
-            
+
             _app.Run(async ctx =>
             {
                 if (ctx.Request.Method == "GET")
