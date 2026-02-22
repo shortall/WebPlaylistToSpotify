@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.5.0"></a>
+## [0.5.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.5.0) (2026-02-22)
+
+### Features
+
+* Migrate deprecated methods ([2d70832](https://www.github.com/shortall/WebPlaylistToSpotify/commit/2d7083203b2493b6bd9717949a06718099666710))
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.4.1) (2025-04-23)
 
