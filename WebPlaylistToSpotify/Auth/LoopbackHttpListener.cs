@@ -12,7 +12,8 @@ namespace WebPlaylistToSpotify.Auth
     {
         private const int defaultTimeout = 60 * 5;
 
-        private readonly IWebHost _host;
+        private readonly WebApplication _app;
+        private readonly Task _runTask;
         private readonly TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
         private readonly string _url;
 
@@ -22,26 +23,12 @@ namespace WebPlaylistToSpotify.Auth
         {
             _url = $"http://127.0.0.1:{port}/";
 
-            _host = new WebHostBuilder()
-                .UseKestrel()
-                .UseUrls(_url)
-                .Configure(Configure)
-                .Build();
-            _host.Start();
-        }
-
-        public void Dispose()
-        {
-            Task.Run(async () =>
-            {
-                await Task.Delay(500);
-                _host.Dispose();
-            });
-        }
-
-        private void Configure(IApplicationBuilder app)
-        {
-            app.Run(async ctx =>
+            var builder = WebApplication.CreateBuilder();
+            builder.WebHost.UseKestrel().UseUrls(_url);
+            
+            _app = builder.Build();
+            
+            _app.Run(async ctx =>
             {
                 if (ctx.Request.Method == "GET")
                 {
@@ -66,6 +53,17 @@ namespace WebPlaylistToSpotify.Auth
                 {
                     ctx.Response.StatusCode = 405;
                 }
+            });
+
+            _runTask = _app.RunAsync();
+        }
+
+        public void Dispose()
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                await _app.StopAsync();
             });
         }
 
