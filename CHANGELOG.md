@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.6.0"></a>
+## [0.6.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.6.0) (2026-02-22)
+
+### Features
+
+* Upgrade to .net 10 ([385bc06](https://www.github.com/shortall/WebPlaylistToSpotify/commit/385bc064fb36bc07fbd67954ccfa995744dddbbf))
+
+### Bug Fixes
+
+* format ([f537893](https://www.github.com/shortall/WebPlaylistToSpotify/commit/f5378934f94b5b5f115dc93cffed57838bb437a1))
+
 <a name="0.5.0"></a>
 ## [0.5.0](https://www.github.com/shortall/WebPlaylistToSpotify/releases/tag/v0.5.0) (2026-02-22)
 
